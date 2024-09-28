@@ -209,6 +209,12 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         guard let playerLayer else{ return }
         playerLayer.frame = contentView.bounds
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        playerLayer?.removeFromSuperlayer()
+        queuePlayer?.pause()
+    }
 }
 
 extension ContentFeedCollectionCell{
