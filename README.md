@@ -10,3 +10,9 @@ This iOS application was built using modern iOS development techniques and showc
 - Combine
 
 <br>
+
+#### Connect with me
+
+[Linkedin](https://in.linkedin.com/in/muniyaraj-ios) (connect with me)
+
+</br>
