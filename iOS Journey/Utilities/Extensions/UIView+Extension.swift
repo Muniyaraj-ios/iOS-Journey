@@ -16,6 +16,7 @@ extension UIView{
         bottomAnchor.constraint(equalTo: isSafeArea ? parentView.safeAreaLayoutGuide.bottomAnchor : parentView.bottomAnchor, constant: -const.bottom).isActive = true
     }
     func makeEdgeConstraints(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, width: CGFloat? = nil, height: CGFloat? = nil, edge const: UIEdgeInsets = .zero){
+        translatesAutoresizingMaskIntoConstraints = false
         var anchor: AnchoredConstrints = AnchoredConstrints()
         if let top{
             anchor.top = topAnchor.constraint(equalTo: top, constant: const.top)

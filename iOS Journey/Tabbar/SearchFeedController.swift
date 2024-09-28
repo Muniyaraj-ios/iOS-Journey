@@ -43,7 +43,15 @@ final class SearchFeedController: BaseController {
         let item = CompositionalLayout.createItem(width: .fractionalWidth(1/3), height: .fractionalHeight(1), space: edge)
         
         let fullItem = CompositionalLayout.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), space: edge)
-        let verticalGroup = CompositionalLayout.createGroup(alignment: .vertical, width: .fractionalWidth(1/3), height: .fractionalHeight(1/2), item: fullItem, count: 2)
+                
+        var height: NSCollectionLayoutDimension
+        
+        if #available(iOS 16.0, *){
+            height = .fractionalHeight(0.5)
+        }else{
+            height = .fractionalHeight(1)
+        }
+        let verticalGroup = CompositionalLayout.createGroup(alignment: .vertical, width: .fractionalWidth(1/3), height: height/*.fractionalHeight(1/2)*/, item: fullItem, count: 2)
                 
         let horizontalGroup = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalHeight(0.5), items: [item, verticalGroup, verticalGroup])
         

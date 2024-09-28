@@ -9,7 +9,7 @@ import UIKit
 
 class TabbarController: BaseTabbarController {
     
-    let homePage = HomeController()
+    let homePage = HomeBaseController()
     let searchPage = SearchFeedController()
     let createPostPage = UIViewController()
     let inboxPage = UIViewController()
@@ -101,7 +101,7 @@ enum TabbarItem:Int, CaseIterable{
         switch self {
         case .home: return TabbarValues(name: "Home", image: "home", selectedImage: "home")
         case .search: return TabbarValues(name: "Search", image: "search", selectedImage: "search")
-        case .create: return TabbarValues(name: nil, image: "create", selectedImage: "create",renderMode_normal: .alwaysOriginal,renderMode_selected: .alwaysOriginal,imageInset: UIEdgeInsets(top: -25, left: -6, bottom: 0, right: -6))
+        case .create: return TabbarValues(name: nil, image: "create", selectedImage: "create",renderMode_normal: .alwaysOriginal,renderMode_selected: .alwaysOriginal,imageInset: .zero/*UIEdgeInsets(top: -25, left: -6, bottom: 0, right: -6)*/)
         case .inbox: return TabbarValues(name: "Inbox", image: "inbox", selectedImage: "inbox")
         case .profile: return TabbarValues(name: "Me", image: "profile", selectedImage: "profile_selected",renderMode_normal: .alwaysOriginal,renderMode_selected: .alwaysOriginal)
         }

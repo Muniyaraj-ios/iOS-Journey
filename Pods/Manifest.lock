@@ -1,0 +1,49 @@
+PODS:
+  - ActiveLabel (1.1.0)
+  - GCDWebServer (3.5.4):
+    - GCDWebServer/Core (= 3.5.4)
+  - GCDWebServer/Core (3.5.4)
+  - HLSCachingReverseProxyServer (0.1.0):
+    - GCDWebServer (~> 3.5)
+    - PINCache (>= 3.0.1-beta.3)
+  - PINCache (3.0.4):
+    - PINCache/Arc-exception-safe (= 3.0.4)
+    - PINCache/Core (= 3.0.4)
+  - PINCache/Arc-exception-safe (3.0.4):
+    - PINCache/Core
+  - PINCache/Core (3.0.4):
+    - PINOperation (~> 1.2.3)
+  - PINOperation (1.2.3)
+  - PINRemoteImage (3.0.4):
+    - PINRemoteImage/PINCache (= 3.0.4)
+  - PINRemoteImage/Core (3.0.4):
+    - PINOperation
+  - PINRemoteImage/PINCache (3.0.4):
+    - PINCache (~> 3.0.4)
+    - PINRemoteImage/Core
+
+DEPENDENCIES:
+  - ActiveLabel
+  - HLSCachingReverseProxyServer
+  - PINRemoteImage
+
+SPEC REPOS:
+  trunk:
+    - ActiveLabel
+    - GCDWebServer
+    - HLSCachingReverseProxyServer
+    - PINCache
+    - PINOperation
+    - PINRemoteImage
+
+SPEC CHECKSUMS:
+  ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
+  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
+  HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
+  PINCache: d9a87a0ff397acffe9e2f0db972ac14680441158
+  PINOperation: fb563bcc9c32c26d6c78aaff967d405aa2ee74a7
+  PINRemoteImage: 6256a644f4996991f124811763c7286b2a63ff94
+
+PODFILE CHECKSUM: a31ad5b8be958b0a33a4ca203286e69614c5d3fb
+
+COCOAPODS: 1.15.2

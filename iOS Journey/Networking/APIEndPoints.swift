@@ -8,11 +8,11 @@
 import Foundation
 
 public enum APIEndPoints: String{
-    case video_data = "v3/5ac59f55-dda4-4869-89aa-d4d10b96d1c1"
+    case video_data = "/v3/dbfc68d2-0c27-4885-883d-5f47d20f81e4"
 }
-
+// DEL : https://designer.mocky.io/manage/delete/8a3cf3c7-0755-404e-a0c5-b9e0c63e8053/vOeIcErVFkFs2UHTAd6ofiyuxOg4spfQsVlv
 public enum APIURL: String{
-    case baseMockURL = "https://run.mocky.io/"
+    case baseMockURL = "https://run.mocky.io"
 }
 
 public typealias HTTPHeaders = [String: String]
@@ -34,9 +34,9 @@ enum Encoded{
 
 public struct NetworkParameters{
     var baseURL: APIURL = .baseMockURL
-    let endPoints: APIEndPoints = .video_data
+    var endPoints: APIEndPoints = .video_data
     let method: HTTPMethod
     let parameters: Parameters?
-    let encoding: Encoded = .JSONEncoding
+    var encoding: Encoded = .JSONEncoding
     let headers: HTTPHeaders?
 }

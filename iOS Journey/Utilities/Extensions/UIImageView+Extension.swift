@@ -5,4 +5,13 @@
 //  Created by MacBook on 28/09/24.
 //
 
-import Foundation
+import UIKit
+
+extension UIImageView{
+    convenience init(cornerRadius: CGFloat,mode: UIView.ContentMode = .scaleAspectFit) {
+        self.init(image: nil)
+        self.layer.cornerRadius = cornerRadius
+        self.contentMode = mode
+        self.clipsToBounds = true
+    }
+}
