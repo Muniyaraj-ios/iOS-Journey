@@ -58,7 +58,6 @@ extension SceneDelegate: UIGestureRecognizerDelegate{
     
     private func setupInitalController(){
         let baseController = TabbarController()
-        baseController.selectedIndex = 1
         let navigationController = UINavigationController(rootViewController: baseController)
         setupNavigationController(navigationController)
     }
