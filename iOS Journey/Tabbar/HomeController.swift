@@ -131,20 +131,25 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource{
 
 extension HomeController: UIScrollViewDelegate{
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let cell = self.collectionView.cellForItem(at: IndexPath(row: currentIndex, section: 0)) as? ContentFeedCollectionCell
+        let cell = collectionView.cellForItem(at: IndexPath(row: currentIndex, section: 0)) as? ContentFeedCollectionCell
         cell?.replay()
     }
 }
 
 final class ContentFeedCollectionCell: BaseCollectionCell{
     
-    var userNamelabel: UILabel!
-    var descriptionLabel: UILabel!
-    var imageView: UIImageView!
+    private var userNamelabel: UILabel!
+    private var descriptionLabel: UILabel!
+    private var imageView: UIImageView!
     
     private var queuePlayer: AVQueuePlayer?
     private var playerLayer: AVPlayerLayer?
     private var playbackLooper: AVPlayerLooper?
+    
+    private var likeButtonView: CustomButton!
+    
+    private var progressView: CustomProgressView!
+    private var timeObserverToken: Any?
     
     private var isPlaying: Bool = false
     
@@ -164,24 +169,40 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         userNamelabel = UILabel(text: "", textColor: .white, font: .customFont(style: .semiBold, size: 16))
         descriptionLabel = UILabel(text: "", textColor: .white, font: .customFont(style: .regular, size: 14), line: 4)
         
-        //imageView.image = UIImage(named: "beauty")
+        progressView = CustomProgressView(progressViewStyle: .default)
+        progressView.progress = 0.0
+        progressView.trackTintColor = .tertiaryLabel
+        progressView.progressTintColor = .white
         
+        likeButtonView = CustomButton()
+                
         addSubview(imageView)
         imageView.makeEdgeConstraints(toView: self)
         
+        
+        let customFeedstack = VerticalStack(arrangedSubViews: [likeButtonView], spacing: 8, alignment: .center, distribution: .fillEqually)
+        addSubview(customFeedstack)
+        customFeedstack.makeEdgeConstraints(top: nil, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 0, left: 0, bottom: 40, right: 15))
+        
         let verticalStack = VerticalStack(arrangedSubViews: [userNamelabel, descriptionLabel], spacing: 10, alignment: .leading, distribution: .fillProportionally)
         verticalStack.isLayoutMarginsRelativeArrangement = true
-        verticalStack.layoutMargins = .init(top: 0, left: 12, bottom: 12, right: 8)
+        verticalStack.layoutMargins = .init(top: 0, left: 12, bottom: 8, right: 8)
         
         addSubview(verticalStack)
-        verticalStack.makeEdgeConstraints(top: nil, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 0, left: 0, bottom: 16, right: 0))
+        verticalStack.makeEdgeConstraints(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, edge: .init(top: 0, left: 0, bottom: 0, right: 0))
+        verticalStack.trailingAnchor.constraint(lessThanOrEqualTo: customFeedstack.leadingAnchor, constant: -20).isActive = true
+        
+        addSubview(progressView)
+        
+        progressView.makeEdgeConstraints(top: verticalStack.bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 6, left: 0, bottom: 6, right: 0))
+        
         
     }
     func setupConfigure(_ data: NewVideoModel?){
-        let textDescription = "My Autumn Collection 🍁 #foryou #trending #fashion #getreadywithme #fashion #style #love #instagood #like #photography #beautiful #photooftheday #follow #instagram #picoftheday #model #bhfyp #art #beauty #instadaily #me #likeforlikes #smile #ootd #followme #moda #fashionblogger #happy #cute #instalike #myself #fashionstyle #photo"
+        let _ = "My Autumn Collection 🍁 #foryou #trending #fashion #getreadywithme #fashion #style #love #instagood #like #photography #beautiful #photooftheday #follow #instagram #picoftheday #model #bhfyp #art #beauty #instadaily #me #likeforlikes #smile #ootd #followme #moda #fashionblogger #happy #cute #instalike #myself #fashionstyle #photo"
 
-        userNamelabel.text = data?.posted_by ?? "Munish"
-        descriptionLabel.text = data?.video_description ?? textDescription
+        userNamelabel.text = data?.posted_by
+        descriptionLabel.text = data?.video_description
         
         if let stream_thumbnail = data?.stream_thumbnail,let thumURL = URL(string: stream_thumbnail){
             imageView.pin_updateWithProgress = true
@@ -200,20 +221,66 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         
         playbackLooper = AVPlayerLooper.init(player: queue_player, templateItem: playerItem)
         player_Layer.videoGravity = .resizeAspectFill
-        player_Layer.frame = contentView.bounds
-        imageView.layer.insertSublayer(player_Layer, at: 3)
+        player_Layer.frame = imageView.bounds
+        
+        // Create a container view
+        let playerContainerView = UIView(frame: imageView.bounds)
+        playerContainerView.layer.addSublayer(player_Layer)
+        imageView.addSubview(playerContainerView)
+        
+        
+        addPeriodicTimeObserver()
+
+        //imageView.layer.insertSublayer(player_Layer, at: 3)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let playerLayer else{ return }
-        playerLayer.frame = contentView.bounds
+        playerLayer.frame = imageView.bounds
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         playerLayer?.removeFromSuperlayer()
         queuePlayer?.pause()
+        if let token = timeObserverToken {
+            queuePlayer?.removeTimeObserver(token)
+            timeObserverToken = nil
+        }
+    }
+    
+    deinit {
+        // Remove the time observer when the view controller is deallocated
+        if let token = timeObserverToken {
+            queuePlayer?.removeTimeObserver(token)
+            timeObserverToken = nil
+        }
+    }
+    
+    func addPeriodicTimeObserver() {
+        // Define the time interval for updating the progress view
+        let timeInterval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        
+        // Add the time observer to update the progress view
+        timeObserverToken = queuePlayer?.addPeriodicTimeObserver(forInterval: timeInterval, queue: .main) { [weak self] time in
+            self?.updateProgress()
+        }
+    }
+    
+    func updateProgress() {
+        guard let queuePlayer = queuePlayer, let currentItem = queuePlayer.currentItem else { return }
+        
+        // Get the current time and total duration of the video
+        let currentTime = CMTimeGetSeconds(queuePlayer.currentTime())
+        let totalDuration = CMTimeGetSeconds(currentItem.duration)
+        
+        // Update the progress view based on the playback percentage
+        if totalDuration > 0 {
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.progressView.progress = Float(currentTime / totalDuration)
+            }
+        }
     }
 }
 
@@ -241,5 +308,11 @@ extension ContentFeedCollectionCell{
         queuePlayer?.pause()
         queuePlayer?.seek(to: CMTime(value: 0, timescale: 1))
         isPlaying = false
+    }
+}
+
+class CustomProgressView: UIProgressView {
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIView.noIntrinsicMetric, height: 3)
     }
 }

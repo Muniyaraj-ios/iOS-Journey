@@ -47,6 +47,7 @@
 		F93BCA2A2CA3FA5B00AC77A0 /* UICollectionView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BCA292CA3FA5B00AC77A0 /* UICollectionView+Layout.swift */; };
 		F93BCA2C2CA42BCE00AC77A0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BCA2B2CA42BCE00AC77A0 /* NetworkManager.swift */; };
 		F93BCA2E2CA42BDA00AC77A0 /* APIEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BCA2D2CA42BDA00AC77A0 /* APIEndPoints.swift */; };
+		F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		F93BCA292CA3FA5B00AC77A0 /* UICollectionView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Layout.swift"; sourceTree = "<group>"; };
 		F93BCA2B2CA42BCE00AC77A0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F93BCA2D2CA42BDA00AC77A0 /* APIEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndPoints.swift; sourceTree = "<group>"; };
+		F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+UIKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				F93012BB2CA7E7DE00F7674D /* CustomStackView.swift */,
+				F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */,
 			);
 			name = "UIKit+Extension";
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 			files = (
 				F93BCA182CA3E40E00AC77A0 /* UIViewController+Extension.swift in Sources */,
 				F93BCA162CA3E2AF00AC77A0 /* BaseTableViewCell.swift in Sources */,
+				F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */,
 				F93012C82CA8101A00F7674D /* HomeFeedViewModel.swift in Sources */,
 				F93012C52CA7F5BE00F7674D /* UIImageView+Extension.swift in Sources */,
 				F93BC9C62CA3D99000AC77A0 /* AppDelegate.swift in Sources */,
@@ -904,7 +908,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PQH88KC8RZ;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS Journey/Info.plist";
@@ -936,7 +940,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PQH88KC8RZ;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS Journey/Info.plist";

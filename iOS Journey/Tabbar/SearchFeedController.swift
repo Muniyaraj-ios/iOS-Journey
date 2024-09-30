@@ -76,4 +76,48 @@ extension SearchFeedController: UICollectionViewDataSource, UICollectionViewDele
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: nil) { [weak self] in
+            self?.makePreview()
+        } actionProvider: { _ in
+            
+            let repositoriesAction = UIAction(title: "Respositories", image: UIImage(systemName: "filemenu.and.cursorarrow")) { _ in
+                
+            }
+            
+            let starAction = UIAction(title: "Starts", image: UIImage(systemName: "star")) { _ in
+                
+            }
+            
+            let achivementAction = UIAction(title: "Achievements", image: UIImage(systemName: "trophy")) { _ in
+                
+            }
+                        
+            let unfollowAction = UIAction(title: "Unfollow", image: UIImage(systemName: "xmark.bin.fill"), attributes: .destructive) { _ in
+                
+            }
+            
+            let shareAction = UIAction(title: "Share Profile", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                
+            }
+            
+            let copyAction = UIAction(title: "Copy URL", image: UIImage(systemName: "doc.on.doc")) { _ in
+                
+            }
+            
+            let moreMenu = UIMenu(title: "More...", children: [shareAction, copyAction])
+            
+            return UIMenu(title: "", image: nil, children: [repositoriesAction, starAction, achivementAction, unfollowAction, moreMenu])
+        }
+    }
+    private func makePreview(index: Int = 0)-> UIViewController{
+        
+        let viewcontroller = UIViewController()
+        viewcontroller.view.backgroundColor = .random
+        
+        let prefferedWidth = view.frame.size.width * 0.7
+        viewcontroller.preferredContentSize = CGSize(width: prefferedWidth, height: prefferedWidth + 100.0)
+        
+        return viewcontroller
+    }
 }

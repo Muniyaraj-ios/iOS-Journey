@@ -62,7 +62,6 @@ class HomeBaseController: BaseController, UIPageViewControllerDataSource, UIPage
     }
     
     func setupScrollViewListener() {
-        // Get the scrollView from the UIPageViewController
         for subview in pageViewController.view.subviews {
             if let scrollView = subview as? UIScrollView {
                 scrollView.delegate = self
@@ -78,9 +77,8 @@ class HomeBaseController: BaseController, UIPageViewControllerDataSource, UIPage
         if let firstController = orderedViewControllers.first{
             pageViewController.setViewControllers([firstController], direction: .forward, animated: true, completion: nil)
         }
-                
-        //pageViewController.view.frame = view.bounds
-        pageViewController.view.backgroundColor = .clear//.PrimaryColor
+
+        pageViewController.view.backgroundColor = .clear
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
         pageViewController.view.makeEdgeConstraints(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor)
@@ -91,7 +89,6 @@ class HomeBaseController: BaseController, UIPageViewControllerDataSource, UIPage
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //pageViewController.view.frame = view.bounds
         pageViewController.view.clipsToBounds = true
     }
 }
