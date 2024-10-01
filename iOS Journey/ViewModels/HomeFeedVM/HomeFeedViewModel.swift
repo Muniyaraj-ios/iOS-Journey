@@ -8,6 +8,13 @@
 import Foundation
 import Combine
 
+enum PageType{
+    case foryou
+    case following
+    case discover
+    case other
+}
+
 final class HomeFeedViewModel: ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
@@ -16,8 +23,11 @@ final class HomeFeedViewModel: ObservableObject{
     
     let networkService: MakeNetworkService
     
-    init(networkService: MakeNetworkService = NetworkManager()) {
+    let pageType: PageType
+    
+    init(pageType: PageType,networkService: MakeNetworkService = NetworkManager()) {
         self.networkService = networkService
+        self.pageType = pageType
     }
     
     public func fetchNewVideos(){

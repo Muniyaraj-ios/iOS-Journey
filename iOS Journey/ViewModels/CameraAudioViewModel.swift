@@ -14,6 +14,8 @@ final class CameraAudioViewModel: NSObject{
     @Published var isCameraAuthorized: PermissionState = .none
     @Published var isAudioAuthorized: PermissionState = .none
     
+    var cancellable = Set<AnyCancellable>()
+    
     deinit {
         debugPrint(" \(String(describing: Self.self)) deinited")
     }

@@ -11,7 +11,7 @@ class TabbarController: BaseTabbarController {
     
     let homePage = HomeBaseController()
     let searchPage = SearchFeedController()
-    let createPostPage = UIViewController()
+    let createPostPage = CreatePostController()
     let inboxPage = UIViewController()
     let profilePage = UIViewController()
     

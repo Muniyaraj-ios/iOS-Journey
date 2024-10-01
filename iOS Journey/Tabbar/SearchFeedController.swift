@@ -81,6 +81,26 @@ extension SearchFeedController: UICollectionViewDataSource, UICollectionViewDele
             self?.makePreview()
         } actionProvider: { _ in
             
+            let likeAction = UIAction(title: "Like", image: UIImage(systemName: "heart")) { _ in
+                
+            }
+            
+            let shareProfileAction = UIAction(title: "Share", image: UIImage(systemName: "heart")) { _ in
+                
+            }
+            
+            let viewProfileAction = UIAction(title: "View Profile", image: UIImage(systemName: "heart")) { _ in
+                
+            }
+            
+            let reportAction = UIAction(title: "Report", image: UIImage(systemName: "heart"), attributes: .destructive) { _ in
+                
+            }
+            
+            let notInterestAction = UIAction(title: "Not interested", image: UIImage(systemName: "heart")) { _ in
+                
+            }
+            
             let repositoriesAction = UIAction(title: "Respositories", image: UIImage(systemName: "filemenu.and.cursorarrow")) { _ in
                 
             }

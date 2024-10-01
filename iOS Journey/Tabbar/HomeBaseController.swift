@@ -7,12 +7,12 @@
 
 import UIKit
 
-class HomeBaseController: BaseController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+final class HomeBaseController: BaseController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
     private var pageViewController: UIPageViewController!
     
     private lazy var orderedViewControllers: [UIViewController] = {
-        return [HomeController(), HomeController(), HomeController()]
+        return [HomeController(pageType: .foryou), HomeController(pageType: .following), HomeController(pageType: .discover)]
     }()
         
     lazy private var segmentedControl: UISegmentedControl = {
