@@ -67,7 +67,7 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         
         addSubview(progressView)
         
-        progressView.makeEdgeConstraints(top: verticalStack.bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 6, left: 0, bottom: 6, right: 0))
+        progressView.makeEdgeConstraints(top: verticalStack.bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 6, left: 0, bottom: 0, right: 0))
         
         
     }
@@ -170,12 +170,14 @@ extension ContentFeedCollectionCell{
         guard !isPlaying else{ return }
         queuePlayer?.play()
         isPlaying = true
+        //debugPrint("video : \(videoData?.posted_by ?? "") is playing")
     }
     
     func pause(){
         guard isPlaying else{ return }
         queuePlayer?.pause()
         isPlaying = false
+        debugPrint("video : \(videoData?.posted_by ?? "") is pause")
     }
     
     func stop(){

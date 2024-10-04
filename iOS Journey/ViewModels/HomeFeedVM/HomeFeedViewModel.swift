@@ -25,21 +25,37 @@ final class HomeFeedViewModel: ObservableObject{
     
     let pageType: PageType
     
+    
+    let semaphoreQueue = DispatchSemaphore(value: 1)
+    
     init(pageType: PageType,networkService: MakeNetworkService = NetworkManager()) {
         self.networkService = networkService
         self.pageType = pageType
     }
     
     public func fetchNewVideos(){
-        let newVideosParam = NetworkParameters(baseURL: .baseMockURL, endPoints: .video_data, method: .get, parameters: nil, encoding: .JSONEncoding, headers: nil)
+        //semaphoreQueue.wait()
+        var endPointType: APIEndPoints
+        switch pageType {
+        case .foryou:
+            endPointType = .foryou_data
+        case .following:
+            endPointType = .following_data
+        case .discover:
+            endPointType = .discover_data
+        case .other:
+            endPointType = .following_data
+        }
+        let newVideosParam = NetworkParameters(baseURL: .baseMockURL, endPoints: endPointType, method: .get, parameters: nil, encoding: .JSONEncoding, headers: nil)
         networkService.makeRequest(networkParam: newVideosParam)
-            .sink { completion in
+            .sink { /*[weak self]*/ completion in
                 switch completion{
                 case .finished:
                     debugPrint("fetchNewVideos call finished...")
                 case .failure(let error):
                     debugPrint("fetchNewVideos got error : \(error.localizedDescription)")
                 }
+                //self?.semaphoreQueue.signal()
             } receiveValue: { [weak self] (result: NewVideoBaseData) in
                 debugPrint("fetchNewVideos result : \(result.result?.count ?? 0)")
                 self?.fetchVideos = result

@@ -12,7 +12,7 @@ class TabbarController: BaseTabbarController {
     let homePage = HomeBaseController()
     let searchPage = SearchFeedController()
     let createPostPage = CreatePostController()
-    let inboxPage = UIViewController()
+    let inboxPage = InboxListController()
     let profilePage = UIViewController()
     
     override func viewDidLoad() {

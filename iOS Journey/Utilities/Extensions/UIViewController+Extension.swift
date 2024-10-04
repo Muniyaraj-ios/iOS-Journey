@@ -47,3 +47,12 @@ extension UIViewController{
         navigationController?.present(viewcontroller, animated: animated, completion: completion)
     }
 }
+
+extension UIViewController{
+    func setNavigationBarTitleAttributes(_ attributes: [NSAttributedString.Key: Any]){
+        navigationController?.navigationBar.titleTextAttributes = attributes
+    }
+    func setNavigationBarTitleAttributes(font: UIFont = .customFont(style: .semiBold, size: 16), color: UIColor = .TextPrimaryColor, lineSpacing: CGFloat = 0){
+        navigationController?.navigationBar.titleTextAttributes = NSAttributedString.createAttributes(font: font, color: color, lineSpacing: lineSpacing)
+    }
+}

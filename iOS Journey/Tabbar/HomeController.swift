@@ -50,12 +50,18 @@ final class HomeController: BaseController {
             cell.play()
         }
     }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
             cell.pause()
         }
     }
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
+//            cell.pause()
+//        }
+//    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.makeEdgeConstraints(top: view.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor)
