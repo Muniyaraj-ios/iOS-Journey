@@ -39,9 +39,8 @@ final class HomeController: BaseController {
         setupDelegate()
         setupNetworkCall()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -55,6 +54,9 @@ final class HomeController: BaseController {
         if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
             cell.pause()
         }
+    }    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
 //    override func viewDidDisappear(_ animated: Bool) {
 //        super.viewDidDisappear(animated)

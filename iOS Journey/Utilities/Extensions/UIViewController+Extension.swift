@@ -56,3 +56,26 @@ extension UIViewController{
         navigationController?.navigationBar.titleTextAttributes = NSAttributedString.createAttributes(font: font, color: color, lineSpacing: lineSpacing)
     }
 }
+
+extension UINavigationBar {
+
+    func setColor(backgroundColor: UIColor, color: UIColor = .TextPrimaryColor, font: UIFont = .customFont(style: .semiBold, size: 16), lineSpacing: CGFloat = 0, prefersLargeTitles: Bool = false) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground() // or use configureWithTransparentBackground() for transparent
+        appearance.backgroundColor = backgroundColor
+        appearance.titleTextAttributes = NSAttributedString.createAttributes(font: font, color: color, lineSpacing: lineSpacing)
+        //[.foregroundColor: titleColor]
+        appearance.largeTitleTextAttributes = NSAttributedString.createAttributes(font: font, color: color, lineSpacing: lineSpacing)
+        //[.foregroundColor: titleColor]
+
+        // Apply the appearance to the navigation bar
+        standardAppearance = appearance
+        scrollEdgeAppearance = appearance
+        compactAppearance = appearance
+        self.prefersLargeTitles = prefersLargeTitles
+        setNeedsLayout()
+    }
+    func setTitleAttributes(font: UIFont = .customFont(style: .semiBold, size: 16), color: UIColor = .TextPrimaryColor, lineSpacing: CGFloat = 0){
+        titleTextAttributes = NSAttributedString.createAttributes(font: font, color: color, lineSpacing: lineSpacing)
+    }
+}

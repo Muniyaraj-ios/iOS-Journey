@@ -85,23 +85,25 @@ extension SearchFeedController: UICollectionViewDataSource, UICollectionViewDele
                 
             }
             
-            let shareProfileAction = UIAction(title: "Share", image: UIImage(systemName: "heart")) { _ in
+            let shareProfileAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
                 
             }
             
-            let viewProfileAction = UIAction(title: "View Profile", image: UIImage(systemName: "heart")) { _ in
+            let viewProfileAction = UIAction(title: "View Profile", image: UIImage(systemName: "person.circle")) { _ in
                 
             }
             
-            let reportAction = UIAction(title: "Report", image: UIImage(systemName: "heart"), attributes: .destructive) { _ in
+            let reportAction = UIAction(title: "Report", image: UIImage(systemName: "person.fill.xmark"), attributes: .destructive) { _ in
                 
             }
             
-            let notInterestAction = UIAction(title: "Not interested", image: UIImage(systemName: "heart")) { _ in
+            let notInterestAction = UIAction(title: "Not interested", image: UIImage(systemName: "eye.slash")) { _ in
                 
             }
             
-            let repositoriesAction = UIAction(title: "Respositories", image: UIImage(systemName: "filemenu.and.cursorarrow")) { _ in
+            return UIMenu(children: [likeAction, shareProfileAction, viewProfileAction, reportAction, notInterestAction])
+            
+            /*let repositoriesAction = UIAction(title: "Respositories", image: UIImage(systemName: "filemenu.and.cursorarrow")) { _ in
                 
             }
             
@@ -128,6 +130,8 @@ extension SearchFeedController: UICollectionViewDataSource, UICollectionViewDele
             let moreMenu = UIMenu(title: "More...", children: [shareAction, copyAction])
             
             return UIMenu(title: "", image: nil, children: [repositoriesAction, starAction, achivementAction, unfollowAction, moreMenu])
+             
+            */
         }
     }
     private func makePreview(index: Int = 0)-> UIViewController{
@@ -135,7 +139,7 @@ extension SearchFeedController: UICollectionViewDataSource, UICollectionViewDele
         let viewcontroller = UIViewController()
         viewcontroller.view.backgroundColor = .random
         
-        let prefferedWidth = view.frame.size.width * 0.7
+        let prefferedWidth = view.frame.size.width * 0.8
         viewcontroller.preferredContentSize = CGSize(width: prefferedWidth, height: prefferedWidth + 100.0)
         
         return viewcontroller

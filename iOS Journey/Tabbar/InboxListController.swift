@@ -19,20 +19,31 @@ final class InboxListController: BaseController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
-        addViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        super.loadView()
+        addViews()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .clear
         initalizeUI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.setColor(backgroundColor: .BackgroundColor)
     }
     private func addViews(){
         view.addSubview(collectionView)
         collectionView.makeEdgeConstraints(toView: view, isSafeArea: true)
+        collectionView.contentInset = .init(top: 12, left: 0, bottom: 12, right: 0)
     }
     private func initalizeUI(){
         setupView()
@@ -43,13 +54,11 @@ final class InboxListController: BaseController {
         setupAction()
     }
     private func setupView(){
-        setNavigationBarTitleAttributes()
     }
     private func setupConstrainats(){
         
     }
     private func setupTheme(){
-        
     }
     private func setupLang(){
         DispatchQueue.main.async { [weak self] in
@@ -70,7 +79,7 @@ final class InboxListController: BaseController {
 }
 extension InboxListController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return 18
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,7 +88,7 @@ extension InboxListController: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 80)
+        return CGSize(width: collectionView.frame.width, height: 55)
     }
 }
 
@@ -88,20 +97,38 @@ final class InboxListCollectionCell: BaseCollectionCell{
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .customFont(style: .medium, size: 16)
+        label.font = .customFont(style: .semiBold, size: 15)
         label.textColor = .PrimaryDarkColor
+        label.numberOfLines = 1
         return label
     }()
     
     private var descLabel: UILabel = {
         let label = UILabel()
-        label.font = .customFont(style: .regular, size: 15)
+        label.font = .customFont(style: .regular, size: 13)
         label.textColor = .PrimaryDarkColor
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    private var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .customFont(style: .regular, size: 12)
+        label.textColor = .PrimaryDarkColor
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    private var chatCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = .customFont(style: .regular, size: 12)
+        label.textColor = .TextTeritaryColor
+        label.numberOfLines = 2
         return label
     }()
     
     private var logoIcon: UIImageView = {
-        let imageView = UIImageView(cornerRadius: 0, mode: .scaleAspectFit)
+        let imageView = UIImageView(cornerRadius: 0, mode: .scaleAspectFill)
         return imageView
     }()
     
@@ -110,18 +137,35 @@ final class InboxListCollectionCell: BaseCollectionCell{
         setupUI()
     }
     private func setupUI(){
-        let titleStack = VerticalStack(arrangedSubViews: [titleLabel, descLabel], spacing: 8, alignment: .leading, distribution: .fill)
-        let logoTextStack = HorizontalStack(arrangedSubViews: [logoIcon, titleStack], alignmnent: .center, distribution: .fillProportionally)
-        logoTextStack.isLayoutMarginsRelativeArrangement = true
-        logoTextStack.layoutMargins = .init(top: 8, left: 8, bottom: 0, right: 0)
-        addSubview(logoTextStack)
-        logoTextStack.makeEdgeConstraints(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil)
-        logoTextStack.makeCenterConstraints(toView: self, centerX_axis: true, centerY_axis: false)
-        logoIcon.sizeConstraints(width: 40, height: 40)
+        addSubview(logoIcon)
+        logoIcon.makeEdgeConstraints(top: nil, leading: leadingAnchor, trailing: nil, bottom: nil, edge: .init(top: 0, left: 12, bottom: 0, right: 0))
+        logoIcon.makeCenterConstraints(toView: self, centerX_axis: false, centerY_axis: true)
+        
+        let titleStack = VerticalStack(arrangedSubViews: [titleLabel, descLabel], spacing: 3, alignment: .leading, distribution: .fill)
+        addSubview(titleStack)
+        titleStack.makeEdgeConstraints(top: nil, leading: logoIcon.trailingAnchor, trailing: nil, bottom: nil,edge: .init(top: 0, left: 12, bottom: 0, right: 12))
+        titleStack.makeCenterConstraints(toView: logoIcon, centerX_axis: false, centerY_axis: true)
+        
+        let timeStack = VerticalStack(arrangedSubViews: [timeLabel], spacing: 0, alignment: .top, distribution: .fill)
+        addSubview(timeStack)
+        timeStack.makeEdgeConstraints(top: nil, leading: nil, trailing: trailingAnchor, bottom: nil, edge: .init(top: 0, left: 8, bottom: 0, right: 12))
+        timeStack.makeCenterConstraints(toView: self, centerX_axis: false, centerY_axis: true)
+        timeStack.leadingAnchor.constraint(greaterThanOrEqualTo: titleStack.trailingAnchor, constant: 12).isActive = true
+        
+        titleStack.topAnchor.constraint(lessThanOrEqualTo: topAnchor, constant: 4).isActive = true
+        titleStack.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -4).isActive = true
+        
+        logoIcon.sizeConstraints(width: 50, height: 50)
     }
     func setupConfigure(){
         titleLabel.text = "Regina"
-        descLabel.text = "When will you leave?"
-        logoIcon.image = UIImage(named: "beauty")
+        descLabel.text = "When will you leave?, When will you leaveWhen will you leaveWhen will you leaveWhen will you leave"
+        logoIcon.image = UIImage(named: "subbeauty")
+        timeLabel.text = "Now"
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        logoIcon.clipsToBounds = true
+        logoIcon.cornerRadiusWithBorder(isRound: true, corner: 0, borderwidth: 0, borderColor: .clear)
     }
 }

@@ -15,6 +15,18 @@ class TabbarController: BaseTabbarController {
     let inboxPage = InboxListController()
     let profilePage = UIViewController()
     
+    var selectedPage: TabbarItem
+    
+    init(selectedPage: TabbarItem) {
+        self.selectedPage = selectedPage
+        super.init(nibName: nil, bundle: nil)
+        selectedIndex = selectedPage.rawValue
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initalizeUI()
@@ -40,8 +52,9 @@ class TabbarController: BaseTabbarController {
         viewControllers = tabBarList.map{ UINavigationController(rootViewController: $0) }
     }
     func setupView(){
-        guard let tabbarItem = TabbarItem(rawValue: selectedIndex) else{ return }
-        changeTabbarStyle(tabbarItem)
+        //guard let tabbarItem = TabbarItem(rawValue: selectedIndex) else{ return }
+        //changeTabbarStyle(tabbarItem)
+        changeTabbarStyle(selectedPage)
         
         tabBar.applyShadow()
     }

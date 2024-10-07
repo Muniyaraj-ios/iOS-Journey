@@ -48,6 +48,7 @@
 		F93BCA2C2CA42BCE00AC77A0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BCA2B2CA42BCE00AC77A0 /* NetworkManager.swift */; };
 		F93BCA2E2CA42BDA00AC77A0 /* APIEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93BCA2D2CA42BDA00AC77A0 /* APIEndPoints.swift */; };
 		F9448EE72CB0172C00188B4D /* InboxListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9448EE62CB0172C00188B4D /* InboxListController.swift */; };
+		F96EA9C42CB423BD0042A758 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96EA9C32CB423BD0042A758 /* ChatViewController.swift */; };
 		F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */; };
 		F9B342462CABF86300290B3A /* CreatePostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B342452CABF86300290B3A /* CreatePostController.swift */; };
 		F9B342482CABF8A700290B3A /* ContentFeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B342472CABF8A700290B3A /* ContentFeedCollectionCell.swift */; };
@@ -122,6 +123,7 @@
 		F93BCA2B2CA42BCE00AC77A0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F93BCA2D2CA42BDA00AC77A0 /* APIEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndPoints.swift; sourceTree = "<group>"; };
 		F9448EE62CB0172C00188B4D /* InboxListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxListController.swift; sourceTree = "<group>"; };
+		F96EA9C32CB423BD0042A758 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+UIKit.swift"; sourceTree = "<group>"; };
 		F9B342452CABF86300290B3A /* CreatePostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostController.swift; sourceTree = "<group>"; };
 		F9B342472CABF8A700290B3A /* ContentFeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFeedCollectionCell.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 		F93BCA092CA3DF0300AC77A0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F96EA9C22CB4239E0042A758 /* Chat */,
 				F93BCA1B2CA3F4D200AC77A0 /* Tabbar */,
 				F9B342432CABF83600290B3A /* FeedController */,
 				F9B342442CABF85000290B3A /* CreatePost */,
@@ -469,6 +472,14 @@
 				F9448EE62CB0172C00188B4D /* InboxListController.swift */,
 			);
 			name = Childs;
+			sourceTree = "<group>";
+		};
+		F96EA9C22CB4239E0042A758 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				F96EA9C32CB423BD0042A758 /* ChatViewController.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		F9B342432CABF83600290B3A /* FeedController */ = {
@@ -756,6 +767,7 @@
 				F9B342482CABF8A700290B3A /* ContentFeedCollectionCell.swift in Sources */,
 				F93BCA0E2CA3E01800AC77A0 /* BaseController.swift in Sources */,
 				F93BCA262CA3F60B00AC77A0 /* UIColor+Extension.swift in Sources */,
+				F96EA9C42CB423BD0042A758 /* ChatViewController.swift in Sources */,
 				F93BCA2C2CA42BCE00AC77A0 /* NetworkManager.swift in Sources */,
 				F93BCA1F2CA3F4FD00AC77A0 /* TabbarController.swift in Sources */,
 				F93BCA222CA3F51600AC77A0 /* HomeController.swift in Sources */,

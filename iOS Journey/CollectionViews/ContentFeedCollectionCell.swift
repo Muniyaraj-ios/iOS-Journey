@@ -115,6 +115,10 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        userNamelabel.text = nil
+        descriptionLabel.text = nil
+        imageView.image = nil
+        progressView.progress = 0.0
         playerLayer?.removeFromSuperlayer()
         queuePlayer?.pause()
         if let token = timeObserverToken {
