@@ -11,7 +11,7 @@ class BaseController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTapppedAround()
+        //hideKeyboardWhenTapppedAround()
     }
     deinit {
         debugPrint("deinited \(String(describing: Self.self))")

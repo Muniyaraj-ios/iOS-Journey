@@ -11,9 +11,11 @@ final class InboxListController: BaseController {
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(InboxListCollectionCell.self, forCellWithReuseIdentifier: InboxListCollectionCell.resuseIdentifier)
-        collectionView.showsVerticalScrollIndicator = false
+        collectionView.isUserInteractionEnabled = true
         return collectionView
     }()
     
@@ -27,7 +29,6 @@ final class InboxListController: BaseController {
     
     override func loadView() {
         super.loadView()
-        addViews()
     }
     
     override func viewDidLoad() {
@@ -40,9 +41,11 @@ final class InboxListController: BaseController {
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.setColor(backgroundColor: .BackgroundColor)
     }
+    
+    
     private func addViews(){
         view.addSubview(collectionView)
-        collectionView.makeEdgeConstraints(toView: view, isSafeArea: true)
+        collectionView.makeEdgeConstraints(toView: view, isSafeArea: false)
         collectionView.contentInset = .init(top: 12, left: 0, bottom: 12, right: 0)
     }
     private func initalizeUI(){
@@ -54,6 +57,7 @@ final class InboxListController: BaseController {
         setupAction()
     }
     private func setupView(){
+        addViews()
     }
     private func setupConstrainats(){
         
@@ -74,7 +78,6 @@ final class InboxListController: BaseController {
         collectionView.dataSource = self
     }
     private func setupAction(){
-        
     }
 }
 extension InboxListController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
@@ -85,15 +88,30 @@ extension InboxListController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InboxListCollectionCell.resuseIdentifier, for: indexPath) as? InboxListCollectionCell else{ return UICollectionViewCell() }
         cell.setupConfigure()
+        print("user inter : ",cell.isUserInteractionEnabled)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 55)
+        return CGSize(width: collectionView.frame.width, height: 80)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
+            debugPrint("did select called")
+            self?.navigateTOChatPage()
+        }
+    }
+    
+    private func navigateTOChatPage(){
+        let chatPage = ChatViewController(userId: "2")
+        tabBarController?.hidesBottomBarWhenPushed = true
+        tabBarController?.navigationController?.pushToController(chatPage)
+//        tabBarController?.selectedViewController?.navigationController?.pushViewController(chatPage, animated: true)
+//        navigationController?.pushViewController(chatPage, animated: true)
     }
 }
 
 
-final class InboxListCollectionCell: BaseCollectionCell{
+class InboxListCollectionCell: BaseCollectionCell{
     
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -134,6 +152,7 @@ final class InboxListCollectionCell: BaseCollectionCell{
     
     override func initalizeUI() {
         super.initalizeUI()
+        
         setupUI()
     }
     private func setupUI(){

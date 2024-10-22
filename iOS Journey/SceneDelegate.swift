@@ -63,8 +63,8 @@ extension SceneDelegate: UIGestureRecognizerDelegate{
     }
     
     func setupNavigationController(_ controller: UINavigationController){
-        controller.interactivePopGestureRecognizer?.delegate = self
         controller.interactivePopGestureRecognizer?.isEnabled = true
+        controller.interactivePopGestureRecognizer?.delegate = self
         
         if let _ = controller.viewControllers.first as? TabbarController{
             controller.isNavigationBarHidden = true

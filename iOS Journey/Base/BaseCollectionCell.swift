@@ -16,7 +16,9 @@ class BaseCollectionCell: UICollectionViewCell, StoryboardCell{
         super.init(coder: coder)
         initalizeUI()
     }
-    func initalizeUI(){}
+    func initalizeUI(){
+        isUserInteractionEnabled = true
+    }
 }
 
 protocol StoryboardCell{

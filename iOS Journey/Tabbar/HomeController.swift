@@ -17,6 +17,7 @@ final class HomeController: BaseController {
         collection.showsVerticalScrollIndicator = false
         collection.isPagingEnabled = true
         collection.backgroundColor = .clear
+        collection.isUserInteractionEnabled = true
         return collection
     }()
     
@@ -93,6 +94,7 @@ final class HomeController: BaseController {
         feedViewModel.fetchNewVideos()
         
         feedViewModel.$fetchVideos
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch completion {
