@@ -20,6 +20,9 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
     private var playbackLooper: AVPlayerLooper?
     
     private var likeButtonView: CustomButton!
+    private var commentButtonView: CustomButton!
+    private var shareButtonView: CustomButton!
+    private var moreButtonView: CustomButton!
     
     private var progressView: CustomProgressView!
     private var timeObserverToken: Any?
@@ -47,13 +50,16 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         progressView.trackTintColor = .tertiaryLabel
         progressView.progressTintColor = .white
         
-        likeButtonView = CustomButton()
+        likeButtonView = CustomButton(type: .like)
+        commentButtonView = CustomButton(type: .comment)
+        shareButtonView = CustomButton(type: .share)
+        moreButtonView = CustomButton(type: .more)
                 
         addSubview(imageView)
         imageView.makeEdgeConstraints(toView: self)
         
+        let customFeedstack = VerticalStack(arrangedSubViews: [likeButtonView, commentButtonView, shareButtonView, moreButtonView], spacing: 25, alignment: .center, distribution: .fill)
         
-        let customFeedstack = VerticalStack(arrangedSubViews: [likeButtonView], spacing: 8, alignment: .center, distribution: .fillEqually)
         addSubview(customFeedstack)
         customFeedstack.makeEdgeConstraints(top: nil, leading: nil, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 0, left: 0, bottom: 40, right: 15))
         
@@ -66,10 +72,39 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         verticalStack.trailingAnchor.constraint(lessThanOrEqualTo: customFeedstack.leadingAnchor, constant: -20).isActive = true
         
         addSubview(progressView)
-        
         progressView.makeEdgeConstraints(top: verticalStack.bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, bottom: bottomAnchor, edge: .init(top: 6, left: 0, bottom: 0, right: 0))
         
+        [likeButtonView, commentButtonView, shareButtonView, moreButtonView].forEach{
+            $0?.widthConstraints(width: 55)
+            $0?.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        }
         
+        imageView.addTap { [weak self] in
+            guard let self = self, let videoPlayer = queuePlayer else { return }
+            if videoPlayer.timeControlStatus == .playing {
+                videoPlayer.pause()
+            } else {
+                videoPlayer.play()
+            }
+        }
+        
+    }
+    @objc func buttonAction(_ sender: UIButton){
+        switch sender{
+        case likeButtonView:
+            debugPrint("like clicked")
+            break
+        case commentButtonView:
+            debugPrint("comment clicked....")
+            break
+        case shareButtonView:
+            debugPrint("share clicked....")
+            break
+        case moreButtonView:
+            debugPrint("more clicked....")
+            break
+        default: break
+        }
     }
     func setupConfigure(_ data: NewVideoModel?){
         let _ = "My Autumn Collection 🍁 #foryou #trending #fashion #getreadywithme #fashion #style #love #instagood #like #photography #beautiful #photooftheday #follow #instagram #picoftheday #model #bhfyp #art #beauty #instadaily #me #likeforlikes #smile #ootd #followme #moda #fashionblogger #happy #cute #instalike #myself #fashionstyle #photo"
@@ -165,23 +200,35 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
 extension ContentFeedCollectionCell{
     
     func replay(){
-        guard !isPlaying else{ return }
+        /*guard !isPlaying else{ return }
         queuePlayer?.seek(to: .zero)
+        play()*/
+        
+        guard let player = queuePlayer else{ return }
+        guard player.timeControlStatus != .playing else{ return }
         play()
     }
     
     func play(){
-        guard !isPlaying else{ return }
+        /*guard !isPlaying else{ return }
         queuePlayer?.play()
         isPlaying = true
-        //debugPrint("video : \(videoData?.posted_by ?? "") is playing")
+        //debugPrint("video : \(videoData?.posted_by ?? "") is playing")*/
+        
+        guard let player = queuePlayer else{ return }
+        guard player.timeControlStatus != .playing else{ return }
+        player.play()
     }
     
     func pause(){
-        guard isPlaying else{ return }
+        /*guard isPlaying else{ return }
         queuePlayer?.pause()
         isPlaying = false
-        debugPrint("video : \(videoData?.posted_by ?? "") is pause")
+        debugPrint("video : \(videoData?.posted_by ?? "") is pause")*/
+        
+        guard let player = queuePlayer else{ return }
+        guard player.timeControlStatus == .playing else{ return }
+        player.pause()
     }
     
     func stop(){

@@ -15,7 +15,18 @@ class CustomButton: BaseButton{
         button.setTitle("", for: .normal)
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .white
+        button.isUserInteractionEnabled = false
         return button
+    }()
+    
+    private let imageViewButton: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "heart")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        imageView.isUserInteractionEnabled = false
+        return imageView
     }()
     
     private let label: UILabel = {
@@ -24,11 +35,22 @@ class CustomButton: BaseButton{
         label.text = "13.9K"
         label.textColor = .white
         label.font = .customFont(style: .regular, size: 14)
+        label.isUserInteractionEnabled = false
         return label
     }()
     
     var stack = UIStackView()
     
+    let type: CustomContentType
+    
+    init(type: CustomContentType) {
+        self.type = type
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func initalizeUI() {
         super.initalizeUI()
@@ -36,14 +58,35 @@ class CustomButton: BaseButton{
     }
     
     private func setupUI(){
-        stack = VerticalStack(arrangedSubViews: [imageButton, label], spacing: 20, alignment: .center, distribution: .fill)
+        stack = VerticalStack(arrangedSubViews: [imageViewButton, label], spacing: 20, alignment: .center, distribution: .fill)
         stack.isBaselineRelativeArrangement = true
         stack.layoutMargins = .init(top: 8, left: 8, bottom: 8, right: 8)
         addSubview(stack)
         stack.makeEdgeConstraints(toView: self)
-        imageButton.sizeConstraints(width: 45, height: 45)
+        imageViewButton.sizeConstraints(width: 30, height: 30)
+        stack.isUserInteractionEnabled = false
+        
+        imageViewButton.image = UIImage(systemName: type.iconName)
+        label.isHidden = type == .more
+    }
+    
+    enum CustomContentType{
+        case like
+        case comment
+        case share
+        case more
+        
+        var iconName: String{
+            switch self {
+            case .like: return "heart"
+            case .comment: return "message"
+            case .share: return "arrowshape.turn.up.forward.fill"
+            case .more: return "ellipsis"
+            }
+        }
     }
 }
+
 
 class LoadingButton: BaseButton {
     

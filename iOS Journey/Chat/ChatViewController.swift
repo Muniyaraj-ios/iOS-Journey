@@ -6,17 +6,44 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class ChatViewController: BaseController {
     
     public var userId: String
-        
+
     lazy var chatTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         return tableView
     }()
+    
+    lazy var wholeTextView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        return view
+    }()
+    
+    lazy var TextViewBgView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        return view
+    }()
+    
+    lazy var messageTextView: PlaceholderTextView = {
+        let view = PlaceholderTextView()
+        view.placeholder = "Message"
+        view.font = .customFont(fontFamily: .poppins, style: .medium, size: 15)
+        view.textColor = .PrimaryDarkColor
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    private var textViewBottomConstraint: NSLayoutConstraint!
+    private var textViewHeightConstraint: NSLayoutConstraint!
+    public private(set) var textViewAttributes = (minHeight: CGFloat(46), maxHeight: CGFloat(120))
+    
     
     init(userId: String) {
         self.userId = userId
@@ -46,6 +73,12 @@ final class ChatViewController: BaseController {
         print("viewWillDisappear called")
         navigationController?.isNavigationBarHidden = true
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        TextViewBgView.cornerRadiusWithBorder(corner: textViewAttributes.minHeight / 2, borderwidth: 0.8, borderColor: .lightGray)
+        TextViewBgView.layer.masksToBounds = true
+    }
     private func initalizeUI(){
         setupView()
         setupTheme()
@@ -55,11 +88,27 @@ final class ChatViewController: BaseController {
         setupAction()
         setupLeftNavBarItem()
         setupNavigationBar()
+        observeNotification()
     }
     private func setupView(){
         view.backgroundColor = .systemBackground
+        view.addSubview(wholeTextView)
+        wholeTextView.makeEdgeConstraints(top: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: nil)
+        
+        textViewBottomConstraint = wholeTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -0)
+        textViewBottomConstraint.isActive = true
+        
         view.addSubview(chatTableView)
-        chatTableView.makeEdgeConstraints(toView: view, isSafeArea: true)
+        chatTableView.makeEdgeConstraints(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: wholeTextView.topAnchor, edge: .init(top: 0, left: 0, bottom: 0, right: 0))
+        
+        wholeTextView.addSubview(TextViewBgView)
+        TextViewBgView.makeEdgeConstraints(toView: wholeTextView, edge: .init(top: 12, left: 12, bottom: 12, right: 12))
+        //TextViewBgView.heightConstraints(height: 52)
+        textViewHeightConstraint = TextViewBgView.heightAnchor.constraint(equalToConstant: textViewAttributes.minHeight)
+        textViewHeightConstraint.isActive = true
+        
+        TextViewBgView.addSubview(messageTextView)
+        messageTextView.makeEdgeConstraints(toView: TextViewBgView, edge: .init(top: 5, left: 8, bottom: 6, right: 5))
     }
     private func setupConstrainats(){
         
@@ -69,6 +118,8 @@ final class ChatViewController: BaseController {
     }
     private func setupLang(){
         //navigationItem.title = "Martin Guptil"
+        
+        messageTextView.placeholder = "Message"
     }
     private func setupFont(){
         
@@ -76,6 +127,7 @@ final class ChatViewController: BaseController {
     private func setupDelegate(){
         chatTableView.delegate = self
         chatTableView.dataSource = self
+        messageTextView.delegate = self
     }
     private func setupAction(){
         
@@ -202,6 +254,107 @@ final class ChatViewController: BaseController {
         print("Video call button tapped")
         // Handle video call action here
     }
+    
+    deinit {
+        removeobserveNotification()
+    }
+}
+
+extension ChatViewController{
+    
+    private func observeNotification(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    private func removeobserveNotification(){
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        adjustButtonForKeyboard(notification: notification, show: true)
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        adjustButtonForKeyboard(notification: notification, show: false)
+    }
+    
+    private func adjustButtonForKeyboard(notification: Notification, show: Bool) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        
+        textViewBottomConstraint?.constant = show ? -(keyboardFrame.height - view.safeAreaInsets.bottom) : -0
+        
+//            UIView.animate(withDuration: 0.3) {  [weak self] in
+//                self?.view.frame.origin.y = show ? -keyboardFrame.height : 0
+//            }
+        
+        UIView.animate(withDuration: animationDuration) { [weak self] in
+            self?.view.layoutIfNeeded()
+            guard let self = self else{ return }
+            if show && chatTableView.isLastSectionAndRowVisible(){
+                chatTableView.safeScrollToBottom(animated: show)
+            }
+        }
+    }
+}
+extension ChatViewController: UITextViewDelegate{
+    
+    private func sendMessage(){
+        messageTextView.text = nil
+        messageTextView.textDidChange()
+        textViewIsEmpty()
+        resetMessageTextViewIfNeeded()
+    }
+    
+    func textViewIsEmpty(){
+        //sendMessageBtn.isEnabled = !messageTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        //sendMessageBtn.tintColor = sendMessageBtn.isEnabled ? .systemBlue : .tertiaryLabel
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        /*UIView.animate(withDuration: 0.5, delay: 0, options: [.allowUserInteraction]) { [weak self] in
+            self?.uploadDocBtn.isHidden = true
+        }*/
+    }
+    func textViewDidChange(_ textView: UITextView) {
+        textViewIsEmpty()
+        
+        let estimatedTextHeight = messageTextView.sizeThatFits(CGSize(width: messageTextView.frame.width, height: .infinity)).height
+        
+        let newHeight: CGFloat!
+        if estimatedTextHeight <= textViewAttributes.minHeight{
+            messageTextView.isScrollEnabled = false
+            newHeight = textViewAttributes.minHeight
+        }else if estimatedTextHeight <= textViewAttributes.maxHeight{
+            newHeight = estimatedTextHeight + 20
+        }else{
+            messageTextView.isScrollEnabled = true
+            newHeight = textViewAttributes.maxHeight
+        }
+        
+        guard textViewHeightConstraint.constant != newHeight else{ return }
+        animatedTextView(newHeight: newHeight)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        resetMessageTextViewIfNeeded()
+    }
+    
+    private func resetMessageTextViewIfNeeded(){
+        guard messageTextView.text.isEmpty else{ return }
+        
+        if textViewHeightConstraint.constant != textViewAttributes.minHeight{
+            animatedTextView(newHeight: textViewAttributes.minHeight)
+        }
+    }
+    
+    private func animatedTextView(newHeight: CGFloat){
+        textViewHeightConstraint.constant = newHeight
+        UIView.animate(withDuration: 0.15, delay: 0, options: [.allowUserInteraction]) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+
+    }
 }
 
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
@@ -232,5 +385,25 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
         cell.contentConfiguration = content
         
         return cell
+    }
+}
+
+struct ChatView: UIViewControllerRepresentable{
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        
+    }
+    
+    typealias UIViewControllerType = UIViewController
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        return ChatViewController(userId: "")
+    }
+    
+    
+}
+
+struct ChatView_preview: PreviewProvider{
+    static var previews: some View{
+        ChatView()
     }
 }

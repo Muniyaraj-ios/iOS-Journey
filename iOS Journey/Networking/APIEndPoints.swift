@@ -8,13 +8,13 @@
 import Foundation
 
 public enum APIEndPoints: String{
-    case foryou_data = "v3/37620916-e625-4961-9679-e6bd38a1a290"
-    case following_data = "v3/61c41c0d-8297-4b5e-98ae-51a4fe12d979"
-    case discover_data = "v3/a86074a5-afe2-4d90-a7fd-cc9b39b14701"
+    case foryou_data = "65892642-e682-46a7-83a8-28f24cb007d7"
+    case following_data = "0f9a7dd2-55ce-4222-b9bf-e2814c4bc23b"
+    case discover_data = "98fcc75b-a3cf-4856-8847-37c953c3f876"
 }
 // DEL : https://designer.mocky.io/manage/delete/8a3cf3c7-0755-404e-a0c5-b9e0c63e8053/vOeIcErVFkFs2UHTAd6ofiyuxOg4spfQsVlv
 public enum APIURL: String{
-    case baseMockURL = "https://run.mocky.io/"
+    case baseMockURL = "https://run.mocky.io/v3/"
 }
 
 public typealias HTTPHeaders = [String: String]

@@ -98,6 +98,7 @@ extension UIView{
         tap.numberOfTapsRequired = count
         addGestureRecognizer(tap)
         isUserInteractionEnabled = true
+        tap.action = action
     }
     
     @objc func handleTap(_ sender: MyGestureRecognizer){

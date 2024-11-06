@@ -50,6 +50,8 @@
 		F9448EE72CB0172C00188B4D /* InboxListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9448EE62CB0172C00188B4D /* InboxListController.swift */; };
 		F96EA9C42CB423BD0042A758 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96EA9C32CB423BD0042A758 /* ChatViewController.swift */; };
 		F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */; };
+		F9932CB02CDB505100567A06 /* TextView+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9932CAF2CDB505100567A06 /* TextView+UIKit.swift */; };
+		F9932CB22CDB551A00567A06 /* TableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9932CB12CDB551A00567A06 /* TableView+Extension.swift */; };
 		F9B342462CABF86300290B3A /* CreatePostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B342452CABF86300290B3A /* CreatePostController.swift */; };
 		F9B342482CABF8A700290B3A /* ContentFeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B342472CABF8A700290B3A /* ContentFeedCollectionCell.swift */; };
 /* End PBXBuildFile section */
@@ -125,6 +127,8 @@
 		F9448EE62CB0172C00188B4D /* InboxListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxListController.swift; sourceTree = "<group>"; };
 		F96EA9C32CB423BD0042A758 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+UIKit.swift"; sourceTree = "<group>"; };
+		F9932CAF2CDB505100567A06 /* TextView+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextView+UIKit.swift"; sourceTree = "<group>"; };
+		F9932CB12CDB551A00567A06 /* TableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView+Extension.swift"; sourceTree = "<group>"; };
 		F9B342452CABF86300290B3A /* CreatePostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostController.swift; sourceTree = "<group>"; };
 		F9B342472CABF8A700290B3A /* ContentFeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFeedCollectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -380,6 +384,7 @@
 				F93012AC2CA7E30F00F7674D /* NSAttributedString+Extension.swift */,
 				F93012C22CA7EEFD00F7674D /* UILabel+Extension.swift */,
 				F93012C42CA7F5BE00F7674D /* UIImageView+Extension.swift */,
+				F9932CB12CDB551A00567A06 /* TableView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 			children = (
 				F93012BB2CA7E7DE00F7674D /* CustomStackView.swift */,
 				F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */,
+				F9932CAF2CDB505100567A06 /* TextView+UIKit.swift */,
 			);
 			name = "UIKit+Extension";
 			sourceTree = "<group>";
@@ -761,6 +767,7 @@
 				F93BCA282CA3F9B900AC77A0 /* SearchFeedController.swift in Sources */,
 				F93BCA2E2CA42BDA00AC77A0 /* APIEndPoints.swift in Sources */,
 				F93012AD2CA7E30F00F7674D /* NSAttributedString+Extension.swift in Sources */,
+				F9932CB02CDB505100567A06 /* TextView+UIKit.swift in Sources */,
 				F93BCA102CA3E06400AC77A0 /* BaseTabbarController.swift in Sources */,
 				F93BCA2A2CA3FA5B00AC77A0 /* UICollectionView+Layout.swift in Sources */,
 				F93BCA122CA3E08500AC77A0 /* BaseView.swift in Sources */,
@@ -781,6 +788,7 @@
 				F9B342462CABF86300290B3A /* CreatePostController.swift in Sources */,
 				F9448EE72CB0172C00188B4D /* InboxListController.swift in Sources */,
 				F93012A92CA7E0B400F7674D /* HomeBaseController.swift in Sources */,
+				F9932CB22CDB551A00567A06 /* TableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
