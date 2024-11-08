@@ -14,6 +14,7 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
     private var userNamelabel: UILabel!
     private var descriptionLabel: UILabel!
     private var imageView: UIImageView!
+    private var playIcon: UIImageView!
     
     private var queuePlayer: AVQueuePlayer?
     private var playerLayer: AVPlayerLayer?
@@ -58,6 +59,13 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         addSubview(imageView)
         imageView.makeEdgeConstraints(toView: self)
         
+        playIcon = UIImageView(image: UIImage(named: "play_btn"))
+        addSubview(playIcon)
+        playIcon.makeCenterConstraints(toView: self)
+        playIcon.sizeConstraints(width: 50, height: 50)
+        
+        playIcon.isHidden = true
+        
         let customFeedstack = VerticalStack(arrangedSubViews: [likeButtonView, commentButtonView, shareButtonView, moreButtonView], spacing: 25, alignment: .center, distribution: .fill)
         
         addSubview(customFeedstack)
@@ -83,8 +91,10 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
             guard let self = self, let videoPlayer = queuePlayer else { return }
             if videoPlayer.timeControlStatus == .playing {
                 videoPlayer.pause()
+                playIcon.isHidden = false
             } else {
                 videoPlayer.play()
+                playIcon.isHidden = true
             }
         }
         
@@ -140,6 +150,13 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         addPeriodicTimeObserver()
 
         //imageView.layer.insertSublayer(player_Layer, at: 3)
+    }
+    
+    func hideTopPriorities(){
+        [userNamelabel, descriptionLabel, progressView, likeButtonView, commentButtonView, shareButtonView, moreButtonView, playIcon].forEach{
+            $0?.isHidden = true
+        }
+        
     }
     
     override func layoutSubviews() {

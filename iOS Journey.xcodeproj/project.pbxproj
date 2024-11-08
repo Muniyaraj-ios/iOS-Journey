@@ -52,6 +52,7 @@
 		F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */; };
 		F9932CB02CDB505100567A06 /* TextView+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9932CAF2CDB505100567A06 /* TextView+UIKit.swift */; };
 		F9932CB22CDB551A00567A06 /* TableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9932CB12CDB551A00567A06 /* TableView+Extension.swift */; };
+		F99631DF2CDE465C005E21C7 /* FeedPreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99631DE2CDE465C005E21C7 /* FeedPreViewController.swift */; };
 		F9B342462CABF86300290B3A /* CreatePostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B342452CABF86300290B3A /* CreatePostController.swift */; };
 		F9B342482CABF8A700290B3A /* ContentFeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B342472CABF8A700290B3A /* ContentFeedCollectionCell.swift */; };
 /* End PBXBuildFile section */
@@ -129,6 +130,7 @@
 		F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+UIKit.swift"; sourceTree = "<group>"; };
 		F9932CAF2CDB505100567A06 /* TextView+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextView+UIKit.swift"; sourceTree = "<group>"; };
 		F9932CB12CDB551A00567A06 /* TableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView+Extension.swift"; sourceTree = "<group>"; };
+		F99631DE2CDE465C005E21C7 /* FeedPreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPreViewController.swift; sourceTree = "<group>"; };
 		F9B342452CABF86300290B3A /* CreatePostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostController.swift; sourceTree = "<group>"; };
 		F9B342472CABF8A700290B3A /* ContentFeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFeedCollectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -430,6 +432,7 @@
 		F93BCA092CA3DF0300AC77A0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F99631DD2CDE462E005E21C7 /* PreviewControl */,
 				F96EA9C22CB4239E0042A758 /* Chat */,
 				F93BCA1B2CA3F4D200AC77A0 /* Tabbar */,
 				F9B342432CABF83600290B3A /* FeedController */,
@@ -448,6 +451,7 @@
 		F93BCA0B2CA3DF2400AC77A0 /* CollectionViews */ = {
 			isa = PBXGroup;
 			children = (
+				F99631DB2CDE4058005E21C7 /* FeedWithNoContent */,
 				F9B342492CABF94500290B3A /* Feed */,
 			);
 			path = CollectionViews;
@@ -486,6 +490,21 @@
 				F96EA9C32CB423BD0042A758 /* ChatViewController.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		F99631DB2CDE4058005E21C7 /* FeedWithNoContent */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FeedWithNoContent;
+			sourceTree = "<group>";
+		};
+		F99631DD2CDE462E005E21C7 /* PreviewControl */ = {
+			isa = PBXGroup;
+			children = (
+				F99631DE2CDE465C005E21C7 /* FeedPreViewController.swift */,
+			);
+			path = PreviewControl;
 			sourceTree = "<group>";
 		};
 		F9B342432CABF83600290B3A /* FeedController */ = {
@@ -774,6 +793,7 @@
 				F9B342482CABF8A700290B3A /* ContentFeedCollectionCell.swift in Sources */,
 				F93BCA0E2CA3E01800AC77A0 /* BaseController.swift in Sources */,
 				F93BCA262CA3F60B00AC77A0 /* UIColor+Extension.swift in Sources */,
+				F99631DF2CDE465C005E21C7 /* FeedPreViewController.swift in Sources */,
 				F96EA9C42CB423BD0042A758 /* ChatViewController.swift in Sources */,
 				F93BCA2C2CA42BCE00AC77A0 /* NetworkManager.swift in Sources */,
 				F93BCA1F2CA3F4FD00AC77A0 /* TabbarController.swift in Sources */,

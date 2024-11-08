@@ -10,7 +10,7 @@ import UIKit
 class TabbarController: BaseTabbarController {
     
     let homePage = HomeBaseController()
-    let searchPage = SearchFeedController()
+    let searchPage = SearchFeedController(pageType: .other)
     let createPostPage = CreatePostController()
     let inboxPage = InboxListController()
     let profilePage = UIViewController()

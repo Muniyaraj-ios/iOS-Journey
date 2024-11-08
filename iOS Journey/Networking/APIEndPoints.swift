@@ -8,9 +8,9 @@
 import Foundation
 
 public enum APIEndPoints: String{
-    case foryou_data = "65892642-e682-46a7-83a8-28f24cb007d7"
-    case following_data = "0f9a7dd2-55ce-4222-b9bf-e2814c4bc23b"
-    case discover_data = "98fcc75b-a3cf-4856-8847-37c953c3f876"
+    case foryou_data = "65b35e44-aafc-4e8c-b417-b478a36e159c"
+    case following_data = "de982c7f-4551-4ca0-a4c8-ecb935722e45"
+    case discover_data = "1935e34f-012b-464d-85b9-f5bceab5a08a"
 }
 // DEL : https://designer.mocky.io/manage/delete/8a3cf3c7-0755-404e-a0c5-b9e0c63e8053/vOeIcErVFkFs2UHTAd6ofiyuxOg4spfQsVlv
 public enum APIURL: String{
