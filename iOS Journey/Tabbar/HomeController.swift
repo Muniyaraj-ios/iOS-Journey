@@ -47,12 +47,14 @@ final class HomeController: BaseController {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
         if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
+            debugPrint("\(Self.self) \(feedViewModel.pageType.rawValue) playing...")
             cell.play()
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
+            debugPrint("\(Self.self) \(feedViewModel.pageType.rawValue) paused...")
             cell.pause()
         }
     }

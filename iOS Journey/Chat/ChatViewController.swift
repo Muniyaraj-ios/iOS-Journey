@@ -40,6 +40,13 @@ final class ChatViewController: BaseController {
         return view
     }()
     
+    lazy var sendMessageButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("", for: .normal)
+        button.setImage(UIImage(systemName: "paperplane.fill"), for: .normal)
+        return button
+    }()
+    
     private var textViewBottomConstraint: NSLayoutConstraint!
     private var textViewHeightConstraint: NSLayoutConstraint!
     public private(set) var textViewAttributes = (minHeight: CGFloat(46), maxHeight: CGFloat(120))
@@ -101,8 +108,15 @@ final class ChatViewController: BaseController {
         view.addSubview(chatTableView)
         chatTableView.makeEdgeConstraints(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: wholeTextView.topAnchor, edge: .init(top: 0, left: 0, bottom: 0, right: 0))
         
+        wholeTextView.addSubview(sendMessageButton)
+        sendMessageButton.makeEdgeConstraints(top: nil, leading: nil, trailing: wholeTextView.trailingAnchor, bottom: nil, edge: .init(top: 0, left: 0, bottom: 0, right: 15))
+        sendMessageButton.makeCenterConstraints(toView: wholeTextView, centerX_axis: false, centerY_axis: true)
+        sendMessageButton.sizeConstraints(width: 45, height: 45)
+        
         wholeTextView.addSubview(TextViewBgView)
-        TextViewBgView.makeEdgeConstraints(toView: wholeTextView, edge: .init(top: 12, left: 12, bottom: 12, right: 12))
+        TextViewBgView.makeEdgeConstraints(top: wholeTextView.topAnchor, leading: wholeTextView.leadingAnchor, trailing: sendMessageButton.leadingAnchor, bottom: wholeTextView.bottomAnchor, edge: .init(top: 12, left: 12, bottom: 12, right: 15))
+        
+        //TextViewBgView.makeEdgeConstraints(toView: wholeTextView, edge: .init(top: 12, left: 12, bottom: 12, right: 12))
         //TextViewBgView.heightConstraints(height: 52)
         textViewHeightConstraint = TextViewBgView.heightAnchor.constraint(equalToConstant: textViewAttributes.minHeight)
         textViewHeightConstraint.isActive = true
@@ -402,8 +416,8 @@ struct ChatView: UIViewControllerRepresentable{
     
 }
 
-struct ChatView_preview: PreviewProvider{
-    static var previews: some View{
-        ChatView()
-    }
-}
+//struct ChatView_preview: PreviewProvider{
+//    static var previews: some View{
+//        ChatView()
+//    }
+//}

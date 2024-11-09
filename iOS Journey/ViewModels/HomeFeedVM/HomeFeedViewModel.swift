@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-enum PageType{
+enum PageType: String{
     case foryou
     case following
     case discover

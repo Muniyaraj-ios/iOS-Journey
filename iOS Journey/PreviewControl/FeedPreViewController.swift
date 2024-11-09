@@ -39,15 +39,15 @@ final class FeedPreViewController: BaseController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-//        if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
-//            cell.play()
-//        }
+        if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
+            cell.play()
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
-//            cell.pause()
-//        }
+        if let cell = collectionView.visibleCells.first as? ContentFeedCollectionCell{
+            cell.pause()
+        }
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -91,8 +91,8 @@ extension FeedPreViewController: UICollectionViewDelegate, UICollectionViewDataS
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if let cell = cell as? ContentFeedCollectionCell{
-//            cell.pause()
-//        }
+        if let cell = cell as? ContentFeedCollectionCell{
+            cell.pause()
+        }
     }
 }

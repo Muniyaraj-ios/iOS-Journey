@@ -98,6 +98,7 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
             }
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(pause), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     @objc func buttonAction(_ sender: UIButton){
         switch sender{
@@ -121,35 +122,48 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
 
         userNamelabel.text = data?.posted_by
         descriptionLabel.text = data?.video_description
-        
-        if let stream_thumbnail = data?.stream_thumbnail,let thumURL = URL(string: stream_thumbnail){
-            imageView.pin_updateWithProgress = true
-            imageView.pin_setImage(from: thumURL, placeholderImage: nil, completion: nil)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else{ return }
+            if let stream_thumbnail = data?.stream_thumbnail,let thumURL = URL(string: stream_thumbnail){
+                imageView.pin_updateWithProgress = true
+                imageView.pin_setImage(from: thumURL, placeholderImage: nil){ result in
+                    DispatchQueue.main.async { [ weak self] in
+                        guard let self = self else{ return }
+                        imageView.image = result.image
+                    }
+                }
+            }
         }
     }
     
     private func updatePlayerView(){
-        guard let playback_url = videoData?.playback_url,let videoURL = URL(string: playback_url) else{ return }
-        let playerItem = AVPlayerItem(url: videoURL)
-        queuePlayer = AVQueuePlayer(playerItem: playerItem)
-        playerLayer = AVPlayerLayer(player: queuePlayer)
-        
-        guard let player_Layer = playerLayer else{ return }
-        guard let queue_player = queuePlayer else{ return }
-        
-        playbackLooper = AVPlayerLooper.init(player: queue_player, templateItem: playerItem)
-        player_Layer.videoGravity = .resizeAspectFill
-        player_Layer.frame = imageView.bounds
-        
-        // Create a container view
-        let playerContainerView = UIView(frame: imageView.bounds)
-        playerContainerView.layer.addSublayer(player_Layer)
-        imageView.addSubview(playerContainerView)
-        
-        
-        addPeriodicTimeObserver()
-
-        //imageView.layer.insertSublayer(player_Layer, at: 3)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else{ return }
+            guard let playback_url = videoData?.playback_url,let videoURL = URL(string: playback_url) else{ return }
+            let playerItem = AVPlayerItem(url: videoURL)
+            queuePlayer = AVQueuePlayer(playerItem: playerItem)
+            playerLayer = AVPlayerLayer(player: queuePlayer)
+            
+            guard let player_Layer = playerLayer else{ return }
+            guard let queue_player = queuePlayer else{ return }
+            
+            playbackLooper = AVPlayerLooper.init(player: queue_player, templateItem: playerItem)
+            player_Layer.videoGravity = .resizeAspectFill
+            DispatchQueue.main.async { [ weak self] in
+                guard let self = self else{ return }
+                player_Layer.frame = imageView.bounds
+                
+                // Create a container view
+                let playerContainerView = UIView(frame: imageView.bounds)
+                playerContainerView.layer.addSublayer(player_Layer)
+                imageView.addSubview(playerContainerView)
+            }
+            
+            
+            addPeriodicTimeObserver()
+            
+            //imageView.layer.insertSublayer(player_Layer, at: 3)
+        }
     }
     
     func hideTopPriorities(){
@@ -185,6 +199,7 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
             queuePlayer?.removeTimeObserver(token)
             timeObserverToken = nil
         }
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     func addPeriodicTimeObserver() {
@@ -208,7 +223,10 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         if totalDuration > 0 {
             let roundValue = Float(currentTime / totalDuration)
             UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.progressView.progress = roundValue
+                DispatchQueue.main.async { [ weak self] in
+                    guard let self = self else{ return }
+                    progressView.progress = roundValue
+                }
             }
         }
     }
@@ -237,7 +255,7 @@ extension ContentFeedCollectionCell{
         player.play()
     }
     
-    func pause(){
+    @objc func pause(){
         /*guard isPlaying else{ return }
         queuePlayer?.pause()
         isPlaying = false
