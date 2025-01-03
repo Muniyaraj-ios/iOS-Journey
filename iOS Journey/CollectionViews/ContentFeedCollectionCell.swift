@@ -104,6 +104,19 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         switch sender{
         case likeButtonView:
             debugPrint("like clicked")
+            self.likeButtonView.transform = CGAffineTransform.identity.scaledBy(x: 0.001, y: 0.001)
+            UIView.animate(withDuration: 0.3 / 1, animations: {
+                self.likeButtonView.transform =
+                CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            }) { finished in
+                UIView.animate(withDuration: 0.3 / 2, animations: {
+                    self.likeButtonView.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+                }) { finished in
+                    UIView.animate(withDuration: 0.3 / 2, animations: {
+                        self.likeButtonView.transform = CGAffineTransform.identity
+                    })
+                }
+            }
             break
         case commentButtonView:
             debugPrint("comment clicked....")

@@ -15,7 +15,7 @@ enum PageType: String{
     case other
 }
 
-final class HomeFeedViewModel: ObservableObject{
+class HomeFeedViewModel: ObservableObject{
     
     var cancelable = Set<AnyCancellable>()
     
@@ -53,6 +53,7 @@ final class HomeFeedViewModel: ObservableObject{
                 case .finished:
                     debugPrint("fetchNewVideos call finished...")
                 case .failure(let error):
+                    self?.fetchVideos = nil
                     debugPrint("fetchNewVideos got error : \(error.localizedDescription)")
                 }
                 self?.semaphoreQueue.signal()

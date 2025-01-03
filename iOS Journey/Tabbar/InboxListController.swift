@@ -35,6 +35,22 @@ final class InboxListController: BaseController {
         super.viewDidLoad()
         view.backgroundColor = .clear
         initalizeUI()
+        
+        let value = [1, 2, 3, 4]//, 5, 6, 7, 8, 9]
+        
+        let result = value
+            .lazy
+            .filter{ value in
+                value % 2 != 0
+            }
+            .map{ value in
+                value * value
+            }
+            .prefix(2)
+            .map{ $0 }
+        
+        print("result : \(result)")
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

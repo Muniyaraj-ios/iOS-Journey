@@ -10,6 +10,7 @@ target 'iOS Journey' do
   pod 'ActiveLabel'
   pod 'PINRemoteImage'
   pod 'HLSCachingReverseProxyServer'
+  pod 'SwiftyJSON'
 
   target 'iOS JourneyTests' do
     inherit! :search_paths

@@ -10,6 +10,11 @@
 		D2FD0718A87643FB963CF69C /* Pods_iOS_Journey_iOS_JourneyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148BEE394C1F852B6807CED0 /* Pods_iOS_Journey_iOS_JourneyUITests.framework */; };
 		E52BA525681D44504260F14F /* Pods_iOS_JourneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F613168FEF4EBB8E62B934D /* Pods_iOS_JourneyTests.framework */; };
 		F87F9ACC0958A7A287F39832 /* Pods_iOS_Journey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC79CBE0E212201A806618E2 /* Pods_iOS_Journey.framework */; };
+		F90BE2C92D26C36B00D9499C /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90BE2C82D26C36B00D9499C /* NetworkingManager.swift */; };
+		F90BE2CB2D26C3C400D9499C /* APIEndService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90BE2CA2D26C3BB00D9499C /* APIEndService.swift */; };
+		F90BE2CD2D26C64B00D9499C /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90BE2CC2D26C64B00D9499C /* ChatViewModel.swift */; };
+		F90BE2CF2D26CB2700D9499C /* ChatMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90BE2CE2D26CB2700D9499C /* ChatMessageModel.swift */; };
+		F90BE2D22D26CC8400D9499C /* HomeFeedVM_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90BE2D12D26CC8400D9499C /* HomeFeedVM_Tests.swift */; };
 		F93012A92CA7E0B400F7674D /* HomeBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93012A82CA7E0B400F7674D /* HomeBaseController.swift */; };
 		F93012AB2CA7E0F900F7674D /* UISegmentControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93012AA2CA7E0F900F7674D /* UISegmentControl+Extension.swift */; };
 		F93012AD2CA7E30F00F7674D /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93012AC2CA7E30F00F7674D /* NSAttributedString+Extension.swift */; };
@@ -84,6 +89,11 @@
 		BC79CBE0E212201A806618E2 /* Pods_iOS_Journey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_Journey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF81FB8C17AA1AFF9D07C906 /* Pods-iOS Journey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Journey.debug.xcconfig"; path = "Target Support Files/Pods-iOS Journey/Pods-iOS Journey.debug.xcconfig"; sourceTree = "<group>"; };
 		F27DBD3B6A53EEF4BD51121B /* Pods-iOS Journey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Journey.release.xcconfig"; path = "Target Support Files/Pods-iOS Journey/Pods-iOS Journey.release.xcconfig"; sourceTree = "<group>"; };
+		F90BE2C82D26C36B00D9499C /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		F90BE2CA2D26C3BB00D9499C /* APIEndService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndService.swift; sourceTree = "<group>"; };
+		F90BE2CC2D26C64B00D9499C /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		F90BE2CE2D26CB2700D9499C /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
+		F90BE2D12D26CC8400D9499C /* HomeFeedVM_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedVM_Tests.swift; sourceTree = "<group>"; };
 		F93012A82CA7E0B400F7674D /* HomeBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBaseController.swift; sourceTree = "<group>"; };
 		F93012AA2CA7E0F900F7674D /* UISegmentControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentControl+Extension.swift"; sourceTree = "<group>"; };
 		F93012AC2CA7E30F00F7674D /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
@@ -186,6 +196,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F90BE2C72D26C35300D9499C /* Customization_Networking */ = {
+			isa = PBXGroup;
+			children = (
+				F90BE2CA2D26C3BB00D9499C /* APIEndService.swift */,
+				F90BE2C82D26C36B00D9499C /* NetworkingManager.swift */,
+			);
+			path = Customization_Networking;
+			sourceTree = "<group>";
+		};
+		F90BE2D02D26CC3300D9499C /* HomeFeedVM_Test */ = {
+			isa = PBXGroup;
+			children = (
+				F90BE2D12D26CC8400D9499C /* HomeFeedVM_Tests.swift */,
+			);
+			path = HomeFeedVM_Test;
+			sourceTree = "<group>";
+		};
 		F93012B32CA7E36500F7674D /* Poppins */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				F93012C72CA8101A00F7674D /* HomeFeedViewModel.swift */,
+				F90BE2CC2D26C64B00D9499C /* ChatViewModel.swift */,
 			);
 			path = HomeFeedVM;
 			sourceTree = "<group>";
@@ -257,6 +285,7 @@
 		F93BC9DE2CA3D99300AC77A0 /* iOS JourneyTests */ = {
 			isa = PBXGroup;
 			children = (
+				F90BE2D02D26CC3300D9499C /* HomeFeedVM_Test */,
 				F93BC9DF2CA3D99300AC77A0 /* iOS_JourneyTests.swift */,
 			);
 			path = "iOS JourneyTests";
@@ -324,8 +353,9 @@
 		F93BC9FE2CA3DDBD00AC77A0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				F93BCA2B2CA42BCE00AC77A0 /* NetworkManager.swift */,
 				F93BCA2D2CA42BDA00AC77A0 /* APIEndPoints.swift */,
+				F93BCA2B2CA42BCE00AC77A0 /* NetworkManager.swift */,
+				F90BE2C72D26C35300D9499C /* Customization_Networking */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -333,6 +363,7 @@
 		F93BC9FF2CA3DDC600AC77A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F90BE2CE2D26CB2700D9499C /* ChatMessageModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -779,6 +810,7 @@
 				F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */,
 				F93012C82CA8101A00F7674D /* HomeFeedViewModel.swift in Sources */,
 				F93012C52CA7F5BE00F7674D /* UIImageView+Extension.swift in Sources */,
+				F90BE2CF2D26CB2700D9499C /* ChatMessageModel.swift in Sources */,
 				F93BC9C62CA3D99000AC77A0 /* AppDelegate.swift in Sources */,
 				F93012BF2CA7EA5F00F7674D /* CameraAudioViewModel.swift in Sources */,
 				F93BC9D02CA3D99000AC77A0 /* iOS_Journey.xcdatamodeld in Sources */,
@@ -792,6 +824,7 @@
 				F93BCA122CA3E08500AC77A0 /* BaseView.swift in Sources */,
 				F9B342482CABF8A700290B3A /* ContentFeedCollectionCell.swift in Sources */,
 				F93BCA0E2CA3E01800AC77A0 /* BaseController.swift in Sources */,
+				F90BE2CB2D26C3C400D9499C /* APIEndService.swift in Sources */,
 				F93BCA262CA3F60B00AC77A0 /* UIColor+Extension.swift in Sources */,
 				F99631DF2CDE465C005E21C7 /* FeedPreViewController.swift in Sources */,
 				F96EA9C42CB423BD0042A758 /* ChatViewController.swift in Sources */,
@@ -803,10 +836,12 @@
 				F93BC9C82CA3D99000AC77A0 /* SceneDelegate.swift in Sources */,
 				F93BCA242CA3F5E200AC77A0 /* FontManager.swift in Sources */,
 				F93BCA1A2CA3EAB600AC77A0 /* UIView+Extension.swift in Sources */,
+				F90BE2CD2D26C64B00D9499C /* ChatViewModel.swift in Sources */,
 				F93BCA142CA3E1DA00AC77A0 /* BaseCollectionCell.swift in Sources */,
 				F93012AB2CA7E0F900F7674D /* UISegmentControl+Extension.swift in Sources */,
 				F9B342462CABF86300290B3A /* CreatePostController.swift in Sources */,
 				F9448EE72CB0172C00188B4D /* InboxListController.swift in Sources */,
+				F90BE2C92D26C36B00D9499C /* NetworkingManager.swift in Sources */,
 				F93012A92CA7E0B400F7674D /* HomeBaseController.swift in Sources */,
 				F9932CB22CDB551A00567A06 /* TableView+Extension.swift in Sources */,
 			);
@@ -817,6 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F93BC9E02CA3D99300AC77A0 /* iOS_JourneyTests.swift in Sources */,
+				F90BE2D22D26CC8400D9499C /* HomeFeedVM_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,6 +1087,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQH88KC8RZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
@@ -1071,6 +1109,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQH88KC8RZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
@@ -1090,6 +1130,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQH88KC8RZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
@@ -1109,6 +1151,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQH88KC8RZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
