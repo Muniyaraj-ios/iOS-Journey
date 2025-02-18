@@ -11,6 +11,11 @@ This iOS application was built using modern iOS development techniques and showc
 
 <br>
 
+
+# Video preview
+
+[Watch Preview feed](https://raw.githubusercontent.com/Muniyaraj-ios/assets/main/video_preview_in_feed_.mp4)
+
 #### Connect with me
 
 [Linkedin](https://in.linkedin.com/in/muniyaraj-ios) (connect with me)
