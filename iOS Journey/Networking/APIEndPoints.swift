@@ -8,16 +8,18 @@
 import Foundation
 
 public enum APIEndPoints: String{
-    case foryou_data = "d1643cfc-d18c-4f3e-9af3-b2c63f89871d"
-    case following_data = "e6d2c3af-3f4a-4427-a0fc-ab537432908e"
-    case discover_data = "e58b734d-c80a-4bc7-9fce-b12e973a27ac"
+    case foryou_data = "foryou.json"
+    case following_data = "following.json"
+    case discover_data = "discover.json"
     
     case chatDetails = "chatDetails"
     case uploadMedia = "uploadMedia"
 }
 
+// "https://raw.githubusercontent.com/Muniyaraj-ios/assets/main/Photos/products.json"
+
 public enum APIURL: String{
-    case baseMockURL = "https://run.mocky.io/v3/"
+    case baseMockURL = "https://raw.githubusercontent.com/Muniyaraj-ios/assets/main/Feeds/"
 }
 
 public typealias HTTPHeaders = [String: String]

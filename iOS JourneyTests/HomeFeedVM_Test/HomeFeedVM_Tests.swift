@@ -26,7 +26,7 @@ final class HomeFeedVM_Tests: XCTestCase {
         let vm = HomeFeedViewModel(pageType: .discover, networkService: NetworkManager())
         
         // When
-        let expectation = XCTestExpectation(description: "Should return values in 1 sec")
+        let expectation = XCTestExpectation(description: "Should return values in 3 sec")
         
         vm.$fetchVideos
             .dropFirst()
@@ -38,7 +38,7 @@ final class HomeFeedVM_Tests: XCTestCase {
         vm.fetchNewVideos()
         
         // Then
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: 3)
         XCTAssertNotNil(vm.fetchVideos?.result, "result is nil")
         XCTAssertFalse(vm.fetchVideos?.result?.isEmpty ?? true)
     }
