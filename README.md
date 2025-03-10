@@ -11,6 +11,15 @@ This iOS application was built using modern iOS development techniques and showc
 
 <br>
 
+
+# Video preview
+
+<video width="600" controls>
+  <source src="https://raw.githubusercontent.com/Muniyaraj-ios/assets/main/video_preview_in_feed_.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
 #### Connect with me
 
 [Linkedin](https://in.linkedin.com/in/muniyaraj-ios) (connect with me)
