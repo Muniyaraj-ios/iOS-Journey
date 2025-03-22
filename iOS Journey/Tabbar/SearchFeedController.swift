@@ -2,7 +2,7 @@
 //  SearchFeedController.swift
 //  iOS Journey
 //
-//  Created by MacBook on 25/09/24.
+//  Created by Munish on  25/09/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 final class SearchFeedController: BaseController {
     
     lazy var collectionView: UICollectionView = {
-        let collection = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        let collection = UICollectionView(frame: view.bounds, collectionViewLayout: CompositionalLayout.instagramLayout())
         collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collection.register(ContentFeedCollectionCell.self, forCellWithReuseIdentifier: ContentFeedCollectionCell.resuseIdentifier)
         collection.showsVerticalScrollIndicator = false
@@ -59,31 +59,7 @@ final class SearchFeedController: BaseController {
         collectionView.dataSource = self
         collectionView.reloadData()
     }
-    private func createLayout()-> UICollectionViewCompositionalLayout{
-        let edge = UIEdgeInsets(top: 0.5, left: 0.5, bottom: 0.5, right: 0.5)
-        
-        let item = CompositionalLayout.createItem(width: .fractionalWidth(1/3), height: .fractionalHeight(1), space: edge)
-        
-        let fullItem = CompositionalLayout.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), space: edge)
-                
-        var height: NSCollectionLayoutDimension
-        
-        if #available(iOS 16.0, *){
-            height = .fractionalHeight(0.5)
-        }else{
-            height = .fractionalHeight(1)
-        }
-        let verticalGroup = CompositionalLayout.createGroup(alignment: .vertical, width: .fractionalWidth(1/3), height: height/*.fractionalHeight(1/2)*/, item: fullItem, count: 2)
-                
-        let horizontalGroup = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalHeight(0.5), items: [item, verticalGroup, verticalGroup])
-        
-        let horizontalGroup_sub = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .fractionalHeight(0.5), items: [verticalGroup, verticalGroup, item])
-        
-        let mainGroup = CompositionalLayout.createGroup(alignment: .vertical, width: .fractionalWidth(1), height: .fractionalHeight(0.7), items: [horizontalGroup, horizontalGroup_sub])
-        
-        let section = NSCollectionLayoutSection(group: mainGroup)
-        return UICollectionViewCompositionalLayout(section: section)
-    }
+    
     private func setupNetworkCall(){
         feedViewModel.fetchNewVideos()
         
@@ -119,9 +95,8 @@ extension SearchFeedController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentFeedCollectionCell.resuseIdentifier, for: indexPath) as? ContentFeedCollectionCell else{ return UICollectionViewCell() }
         let video_data = feedViewModel.fetchVideos?.result?[indexPath.item]
-        //cell.setupConfigure(video_data)
+        cell.setupConfigure(video_data)
         cell.hideTopPriorities()
-        cell.videoData = video_data
         return cell
     }
     
@@ -208,4 +183,22 @@ extension SearchFeedController: UIScrollViewDelegate{
 //        guard let cell = collectionView.visibleCells as? [ContentFeedCollectionCell] else{ return }
 //        cell.forEach{ $0.replay() }
 //    }
+    // Infinite Scroll Logic
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == collectionView else { return }
+        
+        let visibleCells = collectionView.visibleCells
+        
+        // Ensure we have visible cells and get the first one
+        guard let firstVisibleCell = visibleCells.first,
+              let indexPath = collectionView.indexPath(for: firstVisibleCell) else { return }
+        
+        guard collectionView.numberOfSections > 0, collectionView.numberOfItems(inSection: 0) > 0 else{ return }
+        
+        // Check if the last cell is visible
+        let lastIndexPath =  IndexPath(item: (collectionView.numberOfItems(inSection: 0) - 1), section: 0)
+        if indexPath == lastIndexPath || visibleCells.contains(where: { collectionView.indexPath(for: $0) == lastIndexPath }) {
+            print("Last cell is visible. Trigger pagination or additional loading.")
+        }
+    }
 }

@@ -2,7 +2,7 @@
 //  NetworkingManager.swift
 //  iOS Journey
 //
-//  Created by MacBook on 02/01/25.
+//  Created by Munish on  02/01/25.
 //
 
 import UIKit
@@ -12,10 +12,10 @@ protocol NetworkingService: AnyObject{
     func makeRequest<T: BaseSwiftJSON>(networkParam: NetworkParams)-> AnyPublisher<T, Error>
 }
 
-class NetworkingManager: NSObject, URLSessionDelegate, NetworkingService{
+class NetworkingManager: NSObject, @unchecked Sendable, URLSessionDelegate, NetworkingService{
     
     private func generateURLRequest(networkParam: NetworkParams) throws -> URLRequest?{
-        guard let urlString = URL(string: networkParam.baseURL.rawValue + networkParam.endPoint.rawValue) else{ return nil }
+        guard let urlString = URL(string: networkParam.baseURL.rawValue + networkParam.endPoint.endPath) else{ return nil }
         
         var request = URLRequest(url: urlString)
         
@@ -67,7 +67,7 @@ class NetworkingManager: NSObject, URLSessionDelegate, NetworkingService{
             break
         }
         //  request.setValue("Yzk1ZTlkYzAt", forHTTPHeaderField: "Authorization")
-        print("Request Headers: \(request.allHTTPHeaderFields ?? [:])")
+        //print("Request Headers: \(request.allHTTPHeaderFields ?? [:])")
         
         return request
     }
@@ -123,7 +123,7 @@ class NetworkingManager: NSObject, URLSessionDelegate, NetworkingService{
     
     private func printRequestMessage(networkParam: NetworkParams, mergedParams: Parameters?){
         #if DEBUG
-            print("BaseURL : \(networkParam.baseURL.rawValue + networkParam.endPoint.rawValue)")
+            print("BaseURL : \(networkParam.baseURL.rawValue + networkParam.endPoint.endPath)")
             print("Method : \(networkParam.method.rawValue)")
             if let mergedParams{
                 print("Parameters : \(mergedParams)")

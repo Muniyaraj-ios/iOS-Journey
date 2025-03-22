@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "play_btn.png",
+      "filename" : "Heart_feed.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Heart_feed@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Heart_feed@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

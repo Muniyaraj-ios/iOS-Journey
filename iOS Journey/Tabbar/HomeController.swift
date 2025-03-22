@@ -2,12 +2,11 @@
 //  HomeController.swift
 //  iOS Journey
 //
-//  Created by MacBook on 25/09/24.
+//  Created by Munish on  25/09/24.
 //
 
 import UIKit
 import Combine
-
 
 final class HomeController: BaseController {
     
@@ -133,18 +132,94 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource{
         cell.videoData = video_data
         return cell
     }
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let cell = cell as? ContentFeedCollectionCell{
-            currentIndex = indexPath.item
-            cell.pause()
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if let cell = cell as? ContentFeedCollectionCell{
+//            currentIndex = indexPath.item
+//            cell.pause()
+//        }
+//    }
+}
+
+extension HomeController: UIScrollViewDelegate{
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard scrollView == collectionView else{ return }
+        let visibleCells = collectionView.visibleCells
+        guard let firstVisibleCell = visibleCells.first,
+              let indexPath = collectionView.indexPath(for: firstVisibleCell) else { return }
+        
+        // Leave the previous stream before joining the new one
+        if let previousIndexPath = feedViewModel.currentIndexPath {
+            stopStream(for: previousIndexPath)
+        }
+        
+        // reply the new stream
+        replayStream(for: indexPath)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard scrollView == collectionView else{ return }
+        let visibleCells = collectionView.visibleCells
+        guard let firstVisibleCell = visibleCells.first,
+              let indexPath = collectionView.indexPath(for: firstVisibleCell) else { return }
+        
+        // Leave the previous stream before joining the new one
+        if let previousIndexPath = feedViewModel.currentIndexPath {
+            stopStream(for: previousIndexPath)
+        }
+        
+        // Play the new stream
+        playStream(for: indexPath)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard scrollView == collectionView else{ return }
+        // Ensure that when dragging starts, we prepare to leave the current stream
+        if let previousIndexPath = feedViewModel.currentIndexPath {
+            stopStream(for: previousIndexPath)
         }
     }
 }
 
-extension HomeController: UIScrollViewDelegate{
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let cell = collectionView.cellForItem(at: IndexPath(row: currentIndex, section: 0)) as? ContentFeedCollectionCell
-        cell?.replay()
+extension HomeController{
+    
+    private func playStream(for indexPath: IndexPath) {
+        guard indexPath != feedViewModel.currentIndexPath else { return } // Avoid duplicate calls
+        feedViewModel.currentIndexPath = indexPath
+        
+        let stream = feedViewModel.fetchVideos?.result?[indexPath.item]
+        print("playStream called : \(stream?.video_description ?? "")")
+        
+        // Get the cell and update its UI
+        if let cell = collectionView.cellForItem(at: indexPath) as? ContentFeedCollectionCell {
+            cell.play()
+        }
+    }
+    
+    private func stopStream(for indexPath: IndexPath) {
+        guard indexPath == feedViewModel.currentIndexPath else { return } // Leave only if it's the active cell
+        feedViewModel.currentIndexPath = nil
+        
+        let stream = feedViewModel.fetchVideos?.result?[indexPath.item]
+        print("stopStream called : \(stream?.video_description ?? "")")
+        
+        // Get the cell and stop streaming
+        if let cell = collectionView.cellForItem(at: indexPath) as? ContentFeedCollectionCell {
+            cell.stop()
+        }
+    }
+    
+    private func replayStream(for indexPath: IndexPath) {
+        guard indexPath == feedViewModel.currentIndexPath else { return } // Leave only if it's the active cell
+        feedViewModel.currentIndexPath = nil
+        
+        let stream = feedViewModel.fetchVideos?.result?[indexPath.item]
+        print("replayStream called : \(stream?.video_description ?? "")")
+        
+        // Get the cell and reply streaming
+        if let cell = collectionView.cellForItem(at: indexPath) as? ContentFeedCollectionCell {
+            cell.replay()
+        }
     }
 }
 

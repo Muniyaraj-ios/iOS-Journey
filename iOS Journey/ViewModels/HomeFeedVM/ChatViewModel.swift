@@ -2,7 +2,7 @@
 //  ChatViewModel.swift
 //  iOS Journey
 //
-//  Created by MacBook on 02/01/25.
+//  Created by Munish on  02/01/25.
 //
 
 import Foundation
@@ -21,7 +21,7 @@ final class ChatViewModel{
         self.networkService = networkService
     }
     
-    func getChatDetails(){
+    @MainActor func getChatDetails(){
         let networkParam = NetworkParams(baseURL: .baseMockURL, endPoint: .chatDetails, method: .get, parameters: nil, mimeType: .none, encodingType: .JSONEncoding)
         networkService.makeRequest(networkParam: networkParam)
             .sink { completion in
@@ -37,7 +37,7 @@ final class ChatViewModel{
             .store(in: &cancellable)
     }
     
-    func sendChatMessageWithMedia(mediaType: MimeType){
+    @MainActor func sendChatMessageWithMedia(mediaType: MimeType){
         
         var parameters: [String: Any] = [:]
         

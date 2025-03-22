@@ -2,7 +2,7 @@
 //  NetworkManager.swift
 //  iOS Journey
 //
-//  Created by MacBook on 25/09/24.
+//  Created by Munish on  25/09/24.
 //
 
 import Foundation
@@ -30,7 +30,7 @@ final class NetworkManager: NSObject, PrepareURLService, MakeNetworkService, Per
 
     
     func generateURLService(networkParam: NetworkParameters) -> URLRequest? {
-        guard let urlString = URL(string: networkParam.baseURL.rawValue + networkParam.endPoints.rawValue) else{ return nil }
+        guard let urlString = URL(string: networkParam.baseURL.rawValue + networkParam.endPoints.endPath) else{ return nil }
         var request = URLRequest(url: urlString)
         request.httpMethod = networkParam.method.rawValue
         if let headers = networkParam.headers{
@@ -102,7 +102,7 @@ final class NetworkManager: NSObject, PrepareURLService, MakeNetworkService, Per
 extension NetworkManager: URLSessionTaskDelegate{
     
 }
-class BackgroundSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDelegate, URLSessionTaskDelegate {
+class BackgroundSessionDelegate: NSObject, @unchecked Sendable, URLSessionDelegate, URLSessionDataDelegate, URLSessionTaskDelegate {
 
     var dataPublisher = PassthroughSubject<(data: Data, response: URLResponse), Error>()
     private var receivedData = Data()

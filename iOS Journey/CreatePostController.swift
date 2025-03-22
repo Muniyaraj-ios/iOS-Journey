@@ -2,7 +2,7 @@
 //  CreatePostController.swift
 //  iOS Journey
 //
-//  Created by MacBook on 01/10/24.
+//  Created by Munish on  01/10/24.
 //
 
 import UIKit
@@ -22,6 +22,29 @@ final class CreatePostController: BaseController {
         button.tintColor = .white
         return button
     }()
+    
+    private lazy var flipCameraView: CustomButton = {
+        let button = CustomButton(type: .flipcamera)
+        button.label.text = "Flip"
+        return button
+    }()
+    
+    
+    private lazy var captureButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(red: 254/255, green: 44/255, blue: 85/255, alpha: 1.0)
+        button.layer.cornerRadius = captureButton.frame.height / 2
+        return button
+    }()
+    
+    private lazy var captureButtonRingView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = UIColor(red: 254/255, green: 44/255, blue: 85/255, alpha: 1.0).cgColor
+        view.layer.borderWidth = 6
+        return view
+    }()
+    
+    lazy var stackList = VerticalStack(arrangedSubViews: [flipCameraView], spacing: 20, alignment: .fill, distribution: .fillEqually)
     
     let cameraVM = CameraAudioViewModel()
     
@@ -65,7 +88,12 @@ final class CreatePostController: BaseController {
         dismissBtn.sizeConstraints(width: 40, height: 40)
         
         
-        [bgView, dismissBtn].forEach{
+        view.addSubview(stackList)
+        stackList.makeEdgeConstraints(top: dismissBtn.bottomAnchor, leading: nil, trailing: bgView.trailingAnchor, bottom: nil, edge: .init(top: 20, left: 0, bottom: 0, right: 0))
+        
+        flipCameraView.widthConstraints(width: 55)
+        
+        [bgView, dismissBtn, stackList].forEach{
             $0.layer.zPosition = 1
         }
     }
@@ -85,15 +113,25 @@ final class CreatePostController: BaseController {
         
     }
     private func setupAction(){
-        dismissBtn.addTarget(self, action: #selector(dismissAction), for: .touchUpInside)
+        [dismissBtn, flipCameraView].forEach{
+            $0?.addTarget(self, action: #selector(dismissAction), for: .touchUpInside)
+        }
     }
     private func setupListeners(){
         cameraVM.checkCameraAuthorization()
         cameraVM.checkAudioAuthorization()
     }
-    @objc func dismissAction(){
-        stopPreviewCamera()
-        tabBarController?.selectedIndex = 1
+    @objc func dismissAction(_ sender: UIButton){
+        switch sender{
+        case dismissBtn:
+            stopPreviewCamera()
+            tabBarController?.selectedIndex = 1
+            break
+        case flipCameraView:
+            switchCameraOption()
+            break
+        default: break
+        }
     }
     private func setupObservers(){
         cameraVM.$isCameraAuthorized
@@ -109,6 +147,41 @@ final class CreatePostController: BaseController {
                 }
             })
             .store(in: &cameraVM.cancellable)
+    }
+}
+
+extension CreatePostController{
+    
+    func switchCameraOption(){
+        captureSession.beginConfiguration()
+        
+        let currentInput = captureSession.inputs.first as? AVCaptureDeviceInput
+        let newCameraDevice = currentInput?.device.position == .back ? getDeviceFront(position: .front) : getDeviceBack(position: .back)
+        
+        let newVideoInput = try? AVCaptureDeviceInput(device: newCameraDevice!)
+        
+        if let inputs = captureSession.inputs as? [AVCaptureDeviceInput]{
+            for input in inputs {
+                captureSession.removeInput(input)
+            }
+        }
+        
+        if captureSession.inputs.isEmpty{
+            captureSession.addInput(newVideoInput!)
+        }
+        
+        if let microphone = AVCaptureDevice.default(for: .audio){
+            do{
+                let micInput = try AVCaptureDeviceInput(device: microphone)
+                if captureSession.canAddInput(micInput){
+                    captureSession.addInput(micInput)
+                }
+            }catch let micError{
+                print("Error setting device audio input : \(micError)")
+            }
+        }
+        
+        self.captureSession.commitConfiguration()
     }
 }
 

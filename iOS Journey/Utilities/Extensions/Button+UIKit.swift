@@ -2,24 +2,14 @@
 //  Button+UIKit.swift
 //  iOS Journey
 //
-//  Created by MacBook on 30/09/24.
+//  Created by Munish on  30/09/24.
 //
 
 import UIKit
 
 class CustomButton: BaseButton{
     
-    private let imageButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("", for: .normal)
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .white
-        button.isUserInteractionEnabled = false
-        return button
-    }()
-    
-    private let imageViewButton: UIImageView = {
+    lazy var imageViewButton: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "heart")
@@ -29,12 +19,11 @@ class CustomButton: BaseButton{
         return imageView
     }()
     
-    private let label: UILabel = {
+    lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "13.9K"
         label.textColor = .white
-        label.font = .customFont(style: .regular, size: 14)
         label.isUserInteractionEnabled = false
         return label
     }()
@@ -46,16 +35,17 @@ class CustomButton: BaseButton{
     init(type: CustomContentType) {
         self.type = type
         super.init(frame: .zero)
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func initalizeUI() {
-        super.initalizeUI()
-        setupUI()
-    }
+//    override func initalizeUI() {
+//        super.initalizeUI()
+//        setupUI()
+//    }
     
     private func setupUI(){
         stack = VerticalStack(arrangedSubViews: [imageViewButton, label], spacing: 20, alignment: .center, distribution: .fill)
@@ -65,8 +55,9 @@ class CustomButton: BaseButton{
         stack.makeEdgeConstraints(toView: self)
         imageViewButton.sizeConstraints(width: 30, height: 30)
         stack.isUserInteractionEnabled = false
+        label.font = .customFont(style: .regular, size: 14)
         
-        imageViewButton.image = UIImage(systemName: type.iconName)
+        imageViewButton.image = UIImage(named: type.iconName)
         label.isHidden = type == .more
     }
     
@@ -76,12 +67,15 @@ class CustomButton: BaseButton{
         case share
         case more
         
+        case flipcamera
+        
         var iconName: String{
             switch self {
             case .like: return "heart"
-            case .comment: return "message"
-            case .share: return "arrowshape.turn.up.forward.fill"
-            case .more: return "ellipsis"
+            case .comment: return "chat"
+            case .share: return "favourite"
+            case .more: return "more"
+            case .flipcamera: return "flip_camera_icon"
             }
         }
     }
@@ -170,5 +164,15 @@ class LoadingButton: BaseButton {
     func stopLoading() {
         buttonEnabled = true
         activityIndicator.stopAnimating()
+    }
+}
+
+
+extension UIView{
+    
+    func borderLayer(circle: Bool, radius corner: CGFloat = 8, borderColor color: UIColor, borderWidth width: CGFloat){
+        layer.borderColor = color.cgColor
+        layer.borderWidth = width
+        layer.cornerRadius = circle ? (frame.height / 2) : corner
     }
 }

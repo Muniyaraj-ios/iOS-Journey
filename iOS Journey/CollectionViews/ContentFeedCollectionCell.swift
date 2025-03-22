@@ -2,7 +2,7 @@
 //  ContentFeedCollectionCell.swift
 //  iOS Journey
 //
-//  Created by MacBook on 01/10/24.
+//  Created by Munish on  01/10/24.
 //
 
 import UIKit
@@ -36,6 +36,12 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         }
     }
     
+    var videoData_pexeles: FeedVideoResponse?{
+        didSet{
+            updatePlayerView()
+        }
+    }
+    
     override func initalizeUI() {
         super.initalizeUI()
         setupUI()
@@ -59,7 +65,7 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         addSubview(imageView)
         imageView.makeEdgeConstraints(toView: self)
         
-        playIcon = UIImageView(image: UIImage(named: "play_btn"))
+        playIcon = UIImageView(image: UIImage(named: "play_icon"))
         addSubview(playIcon)
         playIcon.makeCenterConstraints(toView: self)
         playIcon.sizeConstraints(width: 50, height: 50)
@@ -91,11 +97,26 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
             guard let self = self, let videoPlayer = queuePlayer else { return }
             if videoPlayer.timeControlStatus == .playing {
                 videoPlayer.pause()
-                playIcon.isHidden = false
+                showPlay()
             } else {
                 videoPlayer.play()
-                playIcon.isHidden = true
+                hidePlayImage()
             }
+        }
+        
+        func showPlay() {
+            playIcon.alpha = 0.2
+            playIcon.transform = CGAffineTransform(scaleX: 1.8, y: 1.8)
+            playIcon.isHidden = false
+            
+            UIView.animate(withDuration: 0.2) { [unowned self] in
+                playIcon.transform = CGAffineTransform(scaleX: 1, y: 1)
+                playIcon.alpha = 1
+            }
+        }
+        
+        func hidePlayImage() {
+            playIcon.isHidden = true
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(pause), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -104,16 +125,16 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         switch sender{
         case likeButtonView:
             debugPrint("like clicked")
-            self.likeButtonView.transform = CGAffineTransform.identity.scaledBy(x: 0.001, y: 0.001)
+            self.likeButtonView.imageViewButton.transform = CGAffineTransform.identity.scaledBy(x: 0.001, y: 0.001)
             UIView.animate(withDuration: 0.3 / 1, animations: {
                 self.likeButtonView.transform =
                 CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
             }) { finished in
                 UIView.animate(withDuration: 0.3 / 2, animations: {
-                    self.likeButtonView.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+                    self.likeButtonView.imageViewButton.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
                 }) { finished in
                     UIView.animate(withDuration: 0.3 / 2, animations: {
-                        self.likeButtonView.transform = CGAffineTransform.identity
+                        self.likeButtonView.imageViewButton.transform = CGAffineTransform.identity
                     })
                 }
             }
@@ -149,34 +170,63 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
         }
     }
     
+    func setupConfigure(_ data: FeedVideoResponse?){
+        let _ = "My Autumn Collection 🍁 #foryou #trending #fashion #getreadywithme #fashion #style #love #instagood #like #photography #beautiful #photooftheday #follow #instagram #picoftheday #model #bhfyp #art #beauty #instadaily #me #likeforlikes #smile #ootd #followme #moda #fashionblogger #happy #cute #instalike #myself #fashionstyle #photo"
+
+        userNamelabel.text = data?.user.name
+        descriptionLabel.text = data?.user.url
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else{ return }
+            if let stream_thumbnail = data?.image,let thumURL = URL(string: stream_thumbnail){
+                imageView.pin_updateWithProgress = true
+                imageView.pin_setImage(from: thumURL, placeholderImage: nil){ result in
+                    DispatchQueue.main.async { [ weak self] in
+                        guard let self = self else{ return }
+                        imageView.image = result.image
+                    }
+                }
+            }
+        }
+    }
+    
     private func updatePlayerView(){
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else{ return }
-            guard let playback_url = videoData?.playback_url,let videoURL = URL(string: playback_url) else{ return }
-            let playerItem = AVPlayerItem(url: videoURL)
-            queuePlayer = AVQueuePlayer(playerItem: playerItem)
-            playerLayer = AVPlayerLayer(player: queuePlayer)
             
-            guard let player_Layer = playerLayer else{ return }
-            guard let queue_player = queuePlayer else{ return }
-            
-            playbackLooper = AVPlayerLooper.init(player: queue_player, templateItem: playerItem)
-            player_Layer.videoGravity = .resizeAspectFill
-            DispatchQueue.main.async { [ weak self] in
-                guard let self = self else{ return }
-                player_Layer.frame = imageView.bounds
+            guard let playback_url = videoData?.playback_url,let videoURL = URL(string: playback_url) else{
                 
-                // Create a container view
-                let playerContainerView = UIView(frame: imageView.bounds)
-                playerContainerView.layer.addSublayer(player_Layer)
-                imageView.addSubview(playerContainerView)
+                let videoFile_ = videoData_pexeles?.video_files.filter({ $0.quality == "hd" })
+                guard let videoFile = videoFile_?.last, !videoFile.link.isEmpty,let videoURL = URL(string: videoFile.link) else{ return }
+                loadVideo(playbackurl: videoURL)
+                
+                return
             }
-            
-            
-            addPeriodicTimeObserver()
-            
-            //imageView.layer.insertSublayer(player_Layer, at: 3)
+            loadVideo(playbackurl: videoURL)
         }
+    }
+    
+    fileprivate func loadVideo(playbackurl videoURL: URL){
+        let playerItem = AVPlayerItem(url: videoURL)
+        queuePlayer = AVQueuePlayer(playerItem: playerItem)
+        playerLayer = AVPlayerLayer(player: queuePlayer)
+        
+        guard let player_Layer = playerLayer else{ return }
+        guard let queue_player = queuePlayer else{ return }
+        
+        playbackLooper = AVPlayerLooper.init(player: queue_player, templateItem: playerItem)
+        player_Layer.videoGravity = .resizeAspectFill
+        DispatchQueue.main.async { [ weak self] in
+            guard let self = self else{ return }
+            player_Layer.frame = imageView.bounds
+            
+            // Create a container view
+            let playerContainerView = UIView(frame: imageView.bounds)
+            playerContainerView.layer.addSublayer(player_Layer)
+            imageView.addSubview(playerContainerView)
+        }
+        
+        
+        addPeriodicTimeObserver()
     }
     
     func hideTopPriorities(){
@@ -248,32 +298,18 @@ final class ContentFeedCollectionCell: BaseCollectionCell{
 extension ContentFeedCollectionCell{
     
     func replay(){
-        /*guard !isPlaying else{ return }
-        queuePlayer?.seek(to: .zero)
-        play()*/
-        
         guard let player = queuePlayer else{ return }
         guard player.timeControlStatus != .playing else{ return }
         play()
     }
     
     func play(){
-        /*guard !isPlaying else{ return }
-        queuePlayer?.play()
-        isPlaying = true
-        //debugPrint("video : \(videoData?.posted_by ?? "") is playing")*/
-        
         guard let player = queuePlayer else{ return }
         guard player.timeControlStatus != .playing else{ return }
         player.play()
     }
     
     @objc func pause(){
-        /*guard isPlaying else{ return }
-        queuePlayer?.pause()
-        isPlaying = false
-        debugPrint("video : \(videoData?.posted_by ?? "") is pause")*/
-        
         guard let player = queuePlayer else{ return }
         guard player.timeControlStatus == .playing else{ return }
         player.pause()
@@ -290,4 +326,27 @@ class CustomProgressView: UIProgressView {
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: 3)
     }
+}
+
+
+func cacheVideo(from url: URL, completion: @escaping (URL?) -> Void) {
+    let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        if let data = data, error == nil {
+            let fileManager = FileManager.default
+            let documentDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+            let videoURL = documentDirectory.appendingPathComponent(url.lastPathComponent)
+
+            do {
+                try data.write(to: videoURL)
+                completion(videoURL)  // Successfully cached
+            } catch {
+                print("Failed to save video: \(error)")
+                completion(nil)
+            }
+        } else {
+            print("Download error: \(error?.localizedDescription ?? "Unknown error")")
+            completion(nil)
+        }
+    }
+    task.resume()
 }

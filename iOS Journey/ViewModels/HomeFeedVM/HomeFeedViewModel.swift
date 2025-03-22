@@ -2,7 +2,7 @@
 //  HomeFeedViewModel.swift
 //  iOS Journey
 //
-//  Created by MacBook on 28/09/24.
+//  Created by Munish on  28/09/24.
 //
 
 import Foundation
@@ -22,6 +22,7 @@ class HomeFeedViewModel: ObservableObject{
     @Published var fetchVideos: NewVideoBaseData?
     
     let networkService: MakeNetworkService
+    public var currentIndexPath: IndexPath?
     
     let pageType: PageType
     
@@ -33,7 +34,7 @@ class HomeFeedViewModel: ObservableObject{
         self.pageType = pageType
     }
     
-    public func fetchNewVideos(){
+    @MainActor public func fetchNewVideos(){
         semaphoreQueue.wait()
         var endPointType: APIEndPoints
         switch pageType {

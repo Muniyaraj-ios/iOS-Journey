@@ -2,7 +2,7 @@
 //  HomeBaseController.swift
 //  iOS Journey
 //
-//  Created by MacBook on 28/09/24.
+//  Created by Munish on  28/09/24.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ final class HomeBaseController: BaseController, UIPageViewControllerDataSource, 
     private var pageViewController: UIPageViewController!
     
     private lazy var orderedViewControllers: [UIViewController] = {
-        return [HomeController(pageType: .foryou), HomeController(pageType: .following), HomeController(pageType: .discover)]
+        return [HomeAdvanceController(pageType: .foryou), HomeController(pageType: .following), HomeController(pageType: .discover)]
     }()
         
     lazy private var segmentedControl: UISegmentedControl = {

@@ -2,12 +2,12 @@
 //  UISegmentControl+Extension.swift
 //  iOS Journey
 //
-//  Created by MacBook on 28/09/24.
+//  Created by Munish on  28/09/24.
 //
 
 import UIKit
 
-private var isAnimatingKey: UInt8 = 0
+@MainActor private var isAnimatingKey: UInt8 = 0
 extension UISegmentedControl {
     
     var isAnimating: Bool {

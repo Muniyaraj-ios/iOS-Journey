@@ -2,7 +2,7 @@
 //  InboxListController.swift
 //  iOS Journey
 //
-//  Created by MacBook on 04/10/24.
+//  Created by Munish on  04/10/24.
 //
 
 import UIKit
@@ -49,7 +49,7 @@ final class InboxListController: BaseController {
             .prefix(2)
             .map{ $0 }
         
-        print("result : \(result)")
+        //print("result : \(result)")
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -104,7 +104,7 @@ extension InboxListController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InboxListCollectionCell.resuseIdentifier, for: indexPath) as? InboxListCollectionCell else{ return UICollectionViewCell() }
         cell.setupConfigure()
-        print("user inter : ",cell.isUserInteractionEnabled)
+        //print("user inter : ",cell.isUserInteractionEnabled)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
