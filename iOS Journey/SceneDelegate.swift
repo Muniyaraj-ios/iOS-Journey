@@ -57,7 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate: UIGestureRecognizerDelegate{
     
     private func setupInitalController(){
-        let baseController = TabbarController(selectedPage: .inbox)
+        let baseController = TabbarController(selectedPage: .create)
         let navigationController = UINavigationController(rootViewController: baseController)
         setupNavigationController(navigationController)
     }

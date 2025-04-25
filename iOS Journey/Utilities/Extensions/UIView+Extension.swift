@@ -15,7 +15,9 @@ extension UIView{
         trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -const.right).isActive = true
         bottomAnchor.constraint(equalTo: isSafeArea ? parentView.safeAreaLayoutGuide.bottomAnchor : parentView.bottomAnchor, constant: -const.bottom).isActive = true
     }
-    func makeEdgeConstraints(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, width: CGFloat? = nil, height: CGFloat? = nil, edge const: UIEdgeInsets = .zero){
+    
+    @discardableResult
+    func makeEdgeConstraints(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, width: CGFloat? = nil, height: CGFloat? = nil, edge const: UIEdgeInsets = .zero)-> AnchoredConstrints{
         translatesAutoresizingMaskIntoConstraints = false
         var anchor: AnchoredConstrints = AnchoredConstrints()
         if let top{
@@ -37,8 +39,11 @@ extension UIView{
             anchor.height = heightAnchor.constraint(equalToConstant: height)
         }
         [anchor.top,anchor.leading,anchor.trailing,anchor.bottom,anchor.width,anchor.height].forEach{ $0?.isActive = true }
+        
+        return anchor
     }
     func sizeConstraints(width: CGFloat,height: CGFloat){
+        translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: width).isActive = true
         heightAnchor.constraint(equalToConstant: height).isActive = true
     }
@@ -91,9 +96,9 @@ extension UITabBar {
 
 extension UIView{
     
-    typealias tapActionClosure = (()-> Void)?
+    public typealias tapActionClosure = (()-> Void)
     
-    func addTap(count: Int = 1,action: tapActionClosure){
+    public func addTap(count: Int = 1,action: tapActionClosure?){
         let tap = MyGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         tap.numberOfTapsRequired = count
         addGestureRecognizer(tap)
@@ -106,6 +111,50 @@ extension UIView{
     }
     
     class MyGestureRecognizer: UITapGestureRecognizer{
-        var action: tapActionClosure = nil
+        var action: tapActionClosure?
     }
+}
+
+extension UIView{
+    
+    public func addLongPress(minimum: TimeInterval = 0.3, beganLongPress: tapActionClosure?, endLongPress: tapActionClosure?){
+        let longPress = MyLongGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPress.minimumPressDuration = minimum
+        addGestureRecognizer(longPress)
+        isUserInteractionEnabled = true
+        longPress.beganLongPress = beganLongPress
+        longPress.endLongPress = endLongPress
+    }
+    
+    @objc private func handleLongPress(_ gesture: MyLongGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            gesture.beganLongPress?()
+        case .ended, .cancelled, .failed:
+            gesture.endLongPress?()
+        default:
+            break
+        }
+    }
+    
+    class MyLongGestureRecognizer: UILongPressGestureRecognizer{
+        var beganLongPress: tapActionClosure?
+        var endLongPress: tapActionClosure?
+    }
+
+}
+
+
+extension UIView{
+    
+    func makeBorderWithRadius(color: UIColor = .ringColor, width: CGFloat = 4, radius circle: Bool = true, radius: CGFloat = 8){
+        layer.borderColor = color.cgColor
+        layer.borderWidth = width
+        layer.cornerRadius = circle ? (frame.height / 2) : radius
+        clipsToBounds = true
+    }
+}
+
+extension UIColor{
+    static var ringColor = UIColor(red: 254/255, green: 44/255, blue: 85/255, alpha: 1.0)
 }

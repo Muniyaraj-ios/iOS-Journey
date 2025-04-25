@@ -32,21 +32,30 @@ final class CreatePostController: BaseController {
     
     private lazy var captureButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(red: 254/255, green: 44/255, blue: 85/255, alpha: 1.0)
-        button.layer.cornerRadius = captureButton.frame.height / 2
         return button
     }()
     
     private lazy var captureButtonRingView: UIView = {
         let view = UIView()
-        view.layer.borderColor = UIColor(red: 254/255, green: 44/255, blue: 85/255, alpha: 1.0).cgColor
-        view.layer.borderWidth = 6
         return view
     }()
+    
+    private lazy var captureButtonBgRingView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    var segmentedProgressView: SegmentedProgressView = SegmentedProgressView()
     
     lazy var stackList = VerticalStack(arrangedSubViews: [flipCameraView], spacing: 20, alignment: .fill, distribution: .fillEqually)
     
     let cameraVM = CameraAudioViewModel()
+    
+    private var isRecording: Bool = false
+    
+    private var recordingTimer: Timer?
+    var elapsedTime: CGFloat = 0
+    var totalDuration: PostDuration = .minSec
     
     var captureSession = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -68,12 +77,16 @@ final class CreatePostController: BaseController {
         super.viewDidDisappear(animated)
         tabBarController?.tabBar.isHidden = false
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        captureButtonRingView.makeBorderWithRadius(color: .white)
+        captureButtonBgRingView.makeBorderWithRadius(color: .clear, radius: true)
+        
+        captureButton.makeBorderWithRadius(width: 0)
+    }
     private func initalizeUI(){
         setupView()
-        setupTheme()
-        setupLang()
-        setupFont()
-        setupDelegate()
         setupAction()
         setupObservers()
     }
@@ -93,28 +106,140 @@ final class CreatePostController: BaseController {
         
         flipCameraView.widthConstraints(width: 55)
         
-        [bgView, dismissBtn, stackList].forEach{
+        captureButtonViews()
+        
+        [bgView, dismissBtn, stackList, captureButtonRingView, captureButton, captureButtonBgRingView, segmentedProgressView].forEach{
             $0.layer.zPosition = 1
         }
-    }
-    private func setupConstrainats(){
         
     }
-    private func setupTheme(){
+    
+    private func captureButtonViews(){
+        
+//        view.addSubview(captureButtonRingView)
+//        captureButtonRingView.makeEdgeConstraints(top: nil, leading: nil, trailing: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, edge: .init(top: 0, left: 0, bottom: 12, right: 0))
+//        captureButtonRingView.sizeConstraints(width: 85, height: 85)
+//        captureButtonRingView.makeCenterConstraints(toView: view, centerX_axis: true, centerY_axis: false)
+//        captureButtonRingView.backgroundColor = .clear
+        
+        view.addSubview(segmentedProgressView)
+        segmentedProgressView.makeEdgeConstraints(top: nil, leading: nil, trailing: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, edge: .init(top: 0, left: 0, bottom: 12, right: 0))
+        segmentedProgressView.sizeConstraints(width: 85, height: 85)
+        segmentedProgressView.makeCenterConstraints(toView: view, centerX_axis: true, centerY_axis: false)
+        
+        segmentedProgressView.addSubview(captureButtonBgRingView)
+        captureButtonBgRingView.sizeConstraints(width: 68, height: 68)
+        captureButtonBgRingView.makeCenterConstraints(toView: segmentedProgressView)
+        captureButtonBgRingView.backgroundColor = .systemGray3
+        
+        captureButtonBgRingView.isHidden = true
+//        
+        segmentedProgressView.addSubview(captureButton)
+        captureButton.sizeConstraints(width: 68, height: 68)
+        captureButton.makeCenterConstraints(toView: segmentedProgressView)
+        captureButton.backgroundColor = .purple
+//
+        
+//        captureButtonRingView.setNeedsLayout()
+//        captureButtonRingView.layoutIfNeeded()
+//        captureButton.setNeedsLayout()
+//        captureButton.layoutIfNeeded()
+        
+//        segmentedProgressView.setProgress(90)
+    }
+}
+
+extension CreatePostController{
+    
+    private func startRecording(){
+        handleAnimationRecordButton()
+        startRecordTimer()
+    }
+    
+    private func stopRecording(){
+        handleAnimationRecordButton()
+        stopRecordTimer()
+        segmentedProgressView.pauseProgress()
+    }
+    
+    func startRecordTimer(){
+        //totalDuration = duration
+        //elapsedTime = 0
+        stopRecordTimer()
+        recordingTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(timerUpdate), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func timerUpdate(_ sender: Any){
+        
+        self.elapsedTime += 0.1
+        self.updateProgress(elapsedTime: self.elapsedTime, totalDuration: self.totalDuration.timeLimit)
+        
+        if self.elapsedTime >= self.totalDuration.timeLimit {
+            handleAnimationRecordButton()
+            stopRecordTimer()
+            segmentedProgressView.pauseProgress()
+        }
         
     }
-    private func setupLang(){
-        
+    
+    func stopRecordTimer(){
+        recordingTimer?.invalidate()
+        recordingTimer = nil
     }
-    private func setupFont(){
-        
+    
+    func updateProgress(elapsedTime: CGFloat, totalDuration: CGFloat) {
+        let progress = min(elapsedTime / totalDuration, 1.0)
+        print("progress : \(progress)")
+        segmentedProgressView.setProgress(progress)
     }
-    private func setupDelegate(){
+
+}
+
+extension CreatePostController{
+    
+    func handleAnimationRecordButton(){
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn) { [weak self] in
+            guard let self = self else{return}
+            
+            if !self.isRecording{
+                self.captureButton.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                self.captureButton.layer.cornerRadius = 5
+                self.captureButtonRingView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                self.captureButtonBgRingView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                
+                self.captureButtonBgRingView.isHidden = false
+                
+            }else{
+                self.captureButton.transform = .identity
+                self.captureButtonRingView.transform = .identity
+                self.captureButton.layer.cornerRadius = self.captureButton.frame.height / 2
+                
+                captureButtonBgRingView.isHidden = true
+                
+                //self.handleResetAllVisibilityToIdentity()
+            }
+        } completion: { [weak self] _ in
+            guard let self = self else{return}
+            self.isRecording = !self.isRecording
+        }
         
     }
     private func setupAction(){
         [dismissBtn, flipCameraView].forEach{
             $0?.addTarget(self, action: #selector(dismissAction), for: .touchUpInside)
+        }
+        
+//        captureButton.addTap{ [self] in
+//            startRecording()
+//            //handleAnimationRecordButton()
+//        }
+        
+        captureButton.addLongPress { [self] in
+            startRecording()
+            //handleAnimationRecordButton()
+        } endLongPress: { [self] in
+            stopRecording()
+            //handleAnimationRecordButton()
         }
     }
     private func setupListeners(){
@@ -153,12 +278,16 @@ final class CreatePostController: BaseController {
 extension CreatePostController{
     
     func switchCameraOption(){
+        
         captureSession.beginConfiguration()
-        
         let currentInput = captureSession.inputs.first as? AVCaptureDeviceInput
-        let newCameraDevice = currentInput?.device.position == .back ? getDeviceFront(position: .front) : getDeviceBack(position: .back)
         
-        let newVideoInput = try? AVCaptureDeviceInput(device: newCameraDevice!)
+        guard let newCameraDevice = currentInput?.device.position == .back ? getDeviceFront(position: .front) : getDeviceBack(position: .back) else{
+            self.captureSession.commitConfiguration()
+            return
+        }
+        
+        let newVideoInput = try? AVCaptureDeviceInput(device: newCameraDevice)
         
         if let inputs = captureSession.inputs as? [AVCaptureDeviceInput]{
             for input in inputs {
@@ -197,7 +326,9 @@ extension CreatePostController{
     
     private func stopPreviewCamera(){
         DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.captureSession.stopRunning()
+            if (self?.captureSession.isRunning ?? false){
+                self?.captureSession.stopRunning()
+            }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else{ return }
                 if previewLayer != nil{
@@ -235,5 +366,20 @@ extension CreatePostController{
     }
     private func getDeviceBack(position: AVCaptureDevice.Position)-> AVCaptureDevice?{
         AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position)
+    }
+}
+
+
+enum PostDuration{
+    case minSec
+    case mediumSec
+    case largeSec
+    
+    var timeLimit: CGFloat{
+        switch self {
+        case .minSec: return 15
+        case .mediumSec: return 30
+        case .largeSec: return 60
+        }
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		042F17CB2D93E17D00FC212E /* FruitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F17CA2D93E17D00FC212E /* FruitViewController.swift */; };
 		047EB3E32D8EDC8C00025135 /* MenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EB3E22D8EDC8C00025135 /* MenuAction.swift */; };
 		049622E22D8A9518005AF29C /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049622E12D8A9518005AF29C /* FeedViewModel.swift */; };
 		049622EC2D8A98C3005AF29C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049622EB2D8A98C3005AF29C /* NetworkService.swift */; };
@@ -14,6 +15,8 @@
 		0496235B2D8AA4FA005AF29C /* FeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496235A2D8AA4FA005AF29C /* FeedResponse.swift */; };
 		0496235D2D8AA50F005AF29C /* feeds.json in Resources */ = {isa = PBXBuildFile; fileRef = 0496235C2D8AA50F005AF29C /* feeds.json */; };
 		0496235F2D8AAF5F005AF29C /* HomeAdvanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496235E2D8AAF5F005AF29C /* HomeAdvanceController.swift */; };
+		04E65AAC2D96C3AD00166EF3 /* FileManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E65AAB2D96C3AD00166EF3 /* FileManagerHelper.swift */; };
+		383A4F692DBA9F610004D1E8 /* SegmentedProgressLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383A4F682DBA9F610004D1E8 /* SegmentedProgressLoaderView.swift */; };
 		D2FD0718A87643FB963CF69C /* Pods_iOS_Journey_iOS_JourneyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148BEE394C1F852B6807CED0 /* Pods_iOS_Journey_iOS_JourneyUITests.framework */; };
 		E52BA525681D44504260F14F /* Pods_iOS_JourneyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F613168FEF4EBB8E62B934D /* Pods_iOS_JourneyTests.framework */; };
 		F87F9ACC0958A7A287F39832 /* Pods_iOS_Journey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC79CBE0E212201A806618E2 /* Pods_iOS_Journey.framework */; };
@@ -87,6 +90,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		042F17CA2D93E17D00FC212E /* FruitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FruitViewController.swift; sourceTree = "<group>"; };
 		047EB3E22D8EDC8C00025135 /* MenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAction.swift; sourceTree = "<group>"; };
 		049622E12D8A9518005AF29C /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		049622EB2D8A98C3005AF29C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -94,9 +98,11 @@
 		0496235A2D8AA4FA005AF29C /* FeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedResponse.swift; sourceTree = "<group>"; };
 		0496235C2D8AA50F005AF29C /* feeds.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = feeds.json; sourceTree = "<group>"; };
 		0496235E2D8AAF5F005AF29C /* HomeAdvanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAdvanceController.swift; sourceTree = "<group>"; };
+		04E65AAB2D96C3AD00166EF3 /* FileManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerHelper.swift; sourceTree = "<group>"; };
 		148BEE394C1F852B6807CED0 /* Pods_iOS_Journey_iOS_JourneyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_Journey_iOS_JourneyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16B6209DCFEF79F4E0BD132D /* Pods-iOS JourneyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS JourneyTests.debug.xcconfig"; path = "Target Support Files/Pods-iOS JourneyTests/Pods-iOS JourneyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2960C6B740FE9F7DB4E7BE63 /* Pods-iOS Journey-iOS JourneyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Journey-iOS JourneyUITests.release.xcconfig"; path = "Target Support Files/Pods-iOS Journey-iOS JourneyUITests/Pods-iOS Journey-iOS JourneyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		383A4F682DBA9F610004D1E8 /* SegmentedProgressLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedProgressLoaderView.swift; sourceTree = "<group>"; };
 		8774693C40122AB589907D14 /* Pods-iOS Journey-iOS JourneyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Journey-iOS JourneyUITests.debug.xcconfig"; path = "Target Support Files/Pods-iOS Journey-iOS JourneyUITests/Pods-iOS Journey-iOS JourneyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		9C9CE472BFD567F5CA7CB4B3 /* Pods-iOS JourneyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS JourneyTests.release.xcconfig"; path = "Target Support Files/Pods-iOS JourneyTests/Pods-iOS JourneyTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F613168FEF4EBB8E62B934D /* Pods_iOS_JourneyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_JourneyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,6 +193,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04E65AAA2D96C39B00166EF3 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				04E65AAB2D96C3AD00166EF3 /* FileManagerHelper.swift */,
+			);
+			path = FileManager;
+			sourceTree = "<group>";
+		};
 		10FC703199B511F8B5F79512 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,6 +404,7 @@
 		F93BCA002CA3DDCF00AC77A0 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				04E65AAA2D96C39B00166EF3 /* FileManager */,
 				F93012C62CA80FFE00F7674D /* HomeFeedVM */,
 				F93012BD2CA7EA5100F7674D /* Permission */,
 			);
@@ -454,6 +469,7 @@
 		F93BCA062CA3DE6E00AC77A0 /* UIKit+Extension */ = {
 			isa = PBXGroup;
 			children = (
+				383A4F682DBA9F610004D1E8 /* SegmentedProgressLoaderView.swift */,
 				F93012BB2CA7E7DE00F7674D /* CustomStackView.swift */,
 				F9714EDB2CAAE74B001820A1 /* Button+UIKit.swift */,
 				F9932CAF2CDB505100567A06 /* TextView+UIKit.swift */,
@@ -563,6 +579,7 @@
 			children = (
 				F93BCA212CA3F51600AC77A0 /* HomeController.swift */,
 				0496235E2D8AAF5F005AF29C /* HomeAdvanceController.swift */,
+				042F17CA2D93E17D00FC212E /* FruitViewController.swift */,
 			);
 			name = FeedController;
 			sourceTree = "<group>";
@@ -772,9 +789,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-iOS Journey-iOS JourneyUITests/Pods-iOS Journey-iOS JourneyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-iOS Journey-iOS JourneyUITests/Pods-iOS Journey-iOS JourneyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -789,9 +810,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-iOS Journey/Pods-iOS Journey-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-iOS Journey/Pods-iOS Journey-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -831,6 +856,7 @@
 				F93BCA162CA3E2AF00AC77A0 /* BaseTableViewCell.swift in Sources */,
 				F9714EDC2CAAE74B001820A1 /* Button+UIKit.swift in Sources */,
 				F93012C82CA8101A00F7674D /* HomeFeedViewModel.swift in Sources */,
+				04E65AAC2D96C3AD00166EF3 /* FileManagerHelper.swift in Sources */,
 				F93012C52CA7F5BE00F7674D /* UIImageView+Extension.swift in Sources */,
 				F90BE2CF2D26CB2700D9499C /* ChatMessageModel.swift in Sources */,
 				F93BC9C62CA3D99000AC77A0 /* AppDelegate.swift in Sources */,
@@ -839,6 +865,7 @@
 				049622EE2D8AA1C4005AF29C /* NetworkParams.swift in Sources */,
 				F93BC9D02CA3D99000AC77A0 /* iOS_Journey.xcdatamodeld in Sources */,
 				F93012BC2CA7E7DE00F7674D /* CustomStackView.swift in Sources */,
+				383A4F692DBA9F610004D1E8 /* SegmentedProgressLoaderView.swift in Sources */,
 				F93BCA282CA3F9B900AC77A0 /* SearchFeedController.swift in Sources */,
 				F93BCA2E2CA42BDA00AC77A0 /* APIEndPoints.swift in Sources */,
 				F93012AD2CA7E30F00F7674D /* NSAttributedString+Extension.swift in Sources */,
@@ -868,6 +895,7 @@
 				F93BCA142CA3E1DA00AC77A0 /* BaseCollectionCell.swift in Sources */,
 				F93012AB2CA7E0F900F7674D /* UISegmentControl+Extension.swift in Sources */,
 				F9B342462CABF86300290B3A /* CreatePostController.swift in Sources */,
+				042F17CB2D93E17D00FC212E /* FruitViewController.swift in Sources */,
 				F9448EE72CB0172C00188B4D /* InboxListController.swift in Sources */,
 				F90BE2C92D26C36B00D9499C /* NetworkingManager.swift in Sources */,
 				F93012A92CA7E0B400F7674D /* HomeBaseController.swift in Sources */,
